@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" Î>
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico"/>
+    <title></title>
+    <script src="//at.alicdn.com/t/font_2302506_shsm5sgytk.js"></script>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2302506_shsm5sgytk.css">
+    <script type="text/javascript">
+
+        window.console.error = function () {
+        }
+        // window.console.log = () => {
+        // }
+        let plat_form_currency = 'GLP',
+            showDownload = false,
+            showCustomer = true,
+            showCustomerBank = false,
+            defaultLanguage = 'en', // 第一次访问默认的语言， zh|en|kr|jp|hk|spa|it|de|fra|th
+            showHighVerify = false,
+            showSon = true,
+            showBankFill = true,
+            showInvite = false, // 注册是否显示邀请码，true需要，false不需要
+            showMobileRegister = false,
+            showVerifyCode = true, // 注册是否需要验证码，true需要，false不需要
+            showPostVerify = true,
+            defaultInvite = 'hkrg',
+            defaultCode = '9188',
+            ieoStart = "2021-08-16",
+            ieoEnd = "2021-11-16",
+            ieoStartPrice = "12 USDT",
+            dycimalPrice = false,
+            showIEO = true,
+            showBTCR = true,
+            showETHR = true,
+            showTRXR = true,
+            showUSDTR = true,
+            showErc = true,
+            showTrc = true,
+            showOmni = true,
+            isMock = false,
+            rArr = {
+                'LTC': 6,
+                'BTC': 1,
+                'USDT': 3,
+                'USDC': 4,
+                'ETH': 2,
+                'BCH': 10,
+                'XRP': 5,
+                'TRX': 32,
+            },
+            showInfo = true,
+            customServiceUrl = 'https://kf2.baidoo.net.cn/index/index/home?visiter_id=&visiter_name=&avatar=&groupid=0&business_id=2', // 客服地址
+            customServiceType = 1, // 客服弹窗类型 1-> 开新页面  2-> 小弹窗
+            platProjectName = 'Tokenomy', // 项目名称
+            downAppUrl = 'https://tokenomy.vip/mobiledown',// 下载地址
+            whatsappPhone = '+86123456789', // 客服 - whatsapp电话
+            telegramAccount = '/song2088', // 客服 - Telegram跳转账户
+            projectIP = 'https://hw.tokenomy.vip', // 项目请求地址1
+            projectSIP = 'www.s-coin.vip'; // 项目请求地址2
+    </script>
+    <script src="./js/jquery.js"></script>
+    <!--    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.0.min.js"></script>-->
+    <script src="tradeview/datafeeds/udf/dist/bundle.js"></script>
+    <script src="tradeview/charting_library/charting_library.min.js"></script>
+    <script src="tradeview/datafeeds/udf/dist/polyfills.js"></script>
+    <style type="text/css">
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
+</html>
