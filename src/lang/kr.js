@@ -1376,5 +1376,7 @@ export default {
     "startApply":"신청 시작",
     "minEmpty":"최소 금액은 비워둘 수 없습니다.",
     "maxEmpty":"최대 금액은 비워둘 수 없습니다.",
-    "maxOrmin":"최고액은 최저금액보다 작아서는 안 된다."
+    "maxOrmin":"최고액은 최저금액보다 작아서는 안 된다.",
+    "cooperation":"협력 기관",
+    "customer":"고객 서비스 센터"
 }

@@ -1384,5 +1384,7 @@ export default {
     "startApply":"Start application",
     "minEmpty":"The minimum amount cannot be blank",
     "maxEmpty":"The maximum amount cannot be blank",
-    "maxOrmin":"The maximum amount cannot be less than the minimum amount"
+    "maxOrmin":"The maximum amount cannot be less than the minimum amount",
+    "cooperation":"Cooperative institutions",
+    "customer":"Customer Service Center"
 }

@@ -1459,6 +1459,8 @@ export default {
     "startApply":"开始申请",
     "minEmpty":"最低金额不能为空",
     "maxEmpty":"最高金额不能为空",
-    "maxOrmin":"最高金额不能小于最低金额"
+    "maxOrmin":"最高金额不能小于最低金额",
+    "cooperation":"合作机构",
+    "customer":"客服中心"
 }
 

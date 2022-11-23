@@ -1377,5 +1377,7 @@ export default {
     "startApply":"購買依頼の開始",
     "minEmpty":"最低金額は空白にできません",
     "maxEmpty":"最高金額は空白にできません",
-    "maxOrmin":"最高金額は最低金額より小さくすることはできません"
+    "maxOrmin":"最高金額は最低金額より小さくすることはできません",
+    "cooperation":"協力機構",
+    "customer":"カスタマーサービスセンター"
 }

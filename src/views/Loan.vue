@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="loan">
     <mu-container>
         <mu-appbar style="width: 100%;" color="#fff" text-color="#000">
             {{ $t('shop.loan') }}
@@ -23,7 +23,7 @@
         </mu-form>
         <section class="cooperation">
             <div>
-                <span>合作机构</span>
+                <span>{{$t('cooperation')}}</span>
             </div>
             <div>
                 <img src="../assets/coin1.png" alt="">
@@ -86,28 +86,30 @@ export default {
 </script>
 
 <style lang="scss">
-.formBox{
-    padding: 20px 15px 10px;
-}
-.cooperation{
-    padding: 0 15px;
-    &>div:nth-child(1){
-        border-bottom: 1px solid #ddd;
-        position: relative;
-        span{
-            position: relative;
-            padding: 0 10px;
-            background: #fff;
-            bottom: -10px;
-        }
+.loan{
+    .formBox{
+        padding: 20px 15px 10px;
     }
-    &>div:nth-child(2){
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 15px;
-        img{
-            width: 60px;
-            margin: 10px;
+    .cooperation{
+        padding: 0 15px;
+        &>div:nth-child(1){
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            span{
+                position: relative;
+                padding: 0 10px;
+                background: #fff;
+                bottom: -10px;
+            }
+        }
+        &>div:nth-child(2){
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            img{
+                width: 60px;
+                margin: 10px;
+            }
         }
     }
 }

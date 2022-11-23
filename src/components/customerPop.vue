@@ -1,15 +1,21 @@
 <template>
   <div class="customer-pop">
       <mu-dialog v-if="customServiceType === 1" width="100%" transition="slide-bottom" fullscreen :open.sync="openPop" class="pop-container">
-          <mu-appbar color="primary" title="">
+          <mu-appbar color="primary" :title="$t('customer')">
               <mu-button slot="right" icon @click="openClose">
                   <mu-icon value=":icon-guanbi"></mu-icon>
               </mu-button>
           </mu-appbar>
-          <!--<div class="iframe">
-              <iframe :src="url" frameborder="0" id="icf"></iframe>
-          </div>-->
-          <div style="text-align: center">LOADING...</div>
+          <div class="serviceList">
+            <div>
+                <a :href="'https://t.me/'+ telegramAccount"><img :src="chat2" class="chat2"></a>
+                <span>Telegram</span>
+            </div>
+            <div>
+                <div @click="skipService"><img :src="chat1" class="2"></div>
+                <span>{{$t('home.kefu')}}</span>
+            </div>
+          </div>
       </mu-dialog>
       <mu-dialog v-if="customServiceType === 2" width="221px" transition="slide-bottom" :open.sync="openPop" class="pop-container">
          <div class="s-m">
@@ -37,10 +43,10 @@ export default {
     watch: {
         openPop: function (val) {
             if(val && customServiceType === 1) {
-                let url = this.changeURLArg(customServiceUrl, 'visiter_name', localStorage['accountNum'] || "");
-                url = this.changeURLArg(url, 'visiter_id', localStorage['user_id'] || "");
-                window.open(url, '_blank');
-                this.openClose();
+                // let url = this.changeURLArg(customServiceUrl, 'visiter_name', localStorage['accountNum'] || "");
+                // url = this.changeURLArg(url, 'visiter_id', localStorage['user_id'] || "");
+                // window.open(url, '_blank');
+                // this.openClose();
             }
         }
     },
@@ -63,6 +69,13 @@ export default {
             this.whatsappPhone = whatsappPhone;
             this.telegramAccount = telegramAccount;
             this.customServiceType = customServiceType;
+        },
+        // 跳转在线客服
+        skipService() {
+            let url = this.changeURLArg(customServiceUrl, 'visiter_name', localStorage['accountNum'] || "");
+            url = this.changeURLArg(url, 'visiter_id', localStorage['user_id'] || "");
+            window.open(url, '_blank');
+            this.openClose();
         },
         openClose(){
             this.$emit('update:openPop', false)
@@ -114,12 +127,26 @@ export default {
         margin-left: 10px;
     }
 }
-.iframe{
-    height: calc(100vh - 57px);
-    overflow: hidden;
-    #icf{
-        width: 100%;
-        height: 100%;
+.serviceList{
+    margin: 15px;
+    padding: 10px;
+    background: url('../assets/img_7.png');
+    background-size: 100% 100%;
+    &>div{
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        a,div{
+            display: block;
+            font-size: 0;
+        }
+        img{
+            width: 40px;
+        }
+        span{
+            margin-left: 10px;
+            color: #fff;
+        }
     }
 }
 .s-m{
