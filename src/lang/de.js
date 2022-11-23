@@ -514,6 +514,8 @@ export default {
         "release": "Freigabe",
         "email": "Authentifizierung der Mailbox",
         "phone": "Handy (Handy)",
+        "creditScore":"Credit score",
+        "loan":"Apply for loan",
         "truename": "Authentifizierung des realen Namens",
         "high": "Erweiterte Zertifizierung",
         "type": "Typ",
@@ -1407,5 +1409,11 @@ export default {
         "ieorecord": "Datensatz der Abonnements"
     },
     "quantify":"AI量化",
-    "LinkWallet":"链接钱包"
+    "LinkWallet":"链接钱包",
+    "loanmin":"Please fill in the amount of loans required (minimum)",
+    "loanmax":"Please fill in the amount of loans required (maximum)",
+    "startApply":"Start application",
+    "minEmpty":"The minimum amount cannot be blank",
+    "maxEmpty":"The maximum amount cannot be blank",
+    "maxOrmin":"The maximum amount cannot be less than the minimum amount"
 }

@@ -217,7 +217,12 @@ const routes = [
         meta: {
             title: 'UpStart'
         }
-    }
+    },
+    {
+        path: '/loan',
+        name: 'Loan',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Loan.vue')
+    },
 ]
 
 const router = new VueRouter({

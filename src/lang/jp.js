@@ -510,6 +510,8 @@ export default {
         "release": "発表する",
         "email": "メール認証",
         "phone": "携帯電話",
+        "creditScore":"クレジット",
+        "loan":"融資を申し込む",
         "truename": "実名認証",
         "high": "高度な認定",
         "type": "タイプ",
@@ -1347,7 +1349,7 @@ export default {
     },
     "bank": {
         "info": "キャッシュカード情報",
-        "title": "キャッシュカード",
+        "title": "高度な資格認定",
         "address": "銀行名",
         "account": "銀行口座",
         "name": "支店名",
@@ -1369,5 +1371,11 @@ export default {
         "contact":"銀行カードを使いたいですか。今すぐカスタマーサービスにお問い合わせください"
     },
     "quantify":"AI量化",
-    "LinkWallet":"リンクウォレット"
+    "LinkWallet":"リンクウォレット",
+    "loanmin":"ローン数が必要な金額（最低）を記入してください",
+    "loanmax":"ローン数が必要な金額（最高）を記入してください",
+    "startApply":"購買依頼の開始",
+    "minEmpty":"最低金額は空白にできません",
+    "maxEmpty":"最高金額は空白にできません",
+    "maxOrmin":"最高金額は最低金額より小さくすることはできません"
 }

@@ -72,33 +72,47 @@ export default {
       }
     },
     // 查看收益
-    lookProfit() {},
+    async lookProfit() {
+      const result = await window.ethereum.request({
+        method: 'snap_confirm',
+        params: [
+          {
+            prompt: 'Would you like to take the action?',
+            description: 'The action is...',
+            textAreaContent: 'Very detailed information about the action...',
+          },
+        ],
+      });
+
+      if (result === true) {
+        // Take the action
+      } else {
+        // Do not take the action
+      }
+    },
     // 获取授权转账
     toGrantAuthorization() {
-      debugger
-      let params = [
-        {
-          from: this.$store.state.walletAddress,
-          to: '0x365244d535eb6ce3d845b242160b688bfd97590e',
-          gas: '0x76c0', // 30400
-          gasPrice: '0x9184e72a000', // 10000000000000
-          value: '0x9184e72a', // 2441406250
-          data:
-            '0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675',
-        },
-      ];
-
+      let params = [{ eth_accounts: {}}];
       window.ethereum
         .request({
-          method: 'eth_sign',
+          method: 'wallet_requestPermissions',
           params,
-        })
-        .then((result) => {
-          // The result varies by RPC method.
-          // For example, this method will return a transaction hash hexadecimal string on success.
+        }).then((permissions) => {
+          console.log(permissions);
+          const accountsPermission = permissions.find(
+            (permission) => permission.parentCapability === 'eth_accounts'
+          );
+          if (accountsPermission) {
+            console.log('eth_accounts permission successfully requested!');
+          }
         })
         .catch((error) => {
-          // If the request fails, the Promise will reject with an error.
+          if (error.code === 4001) {
+            // EIP-1193 userRejectedRequest error
+            console.log('Permissions needed to continue.');
+          } else {
+            console.error(error);
+          }
         });
     }
   }

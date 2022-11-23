@@ -5,12 +5,12 @@
         <div class="wrap">
             <div>
                 <!--轮播图开始-->
-                <swiper style="min-height: 100px;" :options="swiperOption">
+                <!-- <swiper style="min-height: 100px;" :options="swiperOption">
                     <swiper-slide v-for="(slide,i) in banners" style="padding: 0 20px;" :key="i">
                         <img :src="slide.pic" style="width: 100%; border-radius: 5px; height: auto;">
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
-                </swiper>
+                </swiper> -->
                 <!--轮播图-->
                 <!--公告开始-->
                 <div style="height: 40px; padding: 0 15px; overflow: hidden; display: flex;

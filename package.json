@@ -22,10 +22,8 @@
     "muse-ui-message": "^0.2.1",
     "muse-ui-progress": "^0.1.0",
     "muse-ui-toast": "^0.3.0",
-    "node-sass": "^5.0.0",
     "qrcodejs2": "^0.0.2",
     "qs": "^6.5.2",
-    "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "scss": "^0.2.4",
     "scss-loader": "^0.0.1",
@@ -39,7 +37,8 @@
     "vue-i18n": "^8.22.4",
     "vue-router": "^3.2.0",
     "vue-socket.io": "^3.0.10",
-    "vuex": "^3.6.0"
+    "vuex": "^3.6.0",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -49,6 +48,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.56.1",
     "vue-template-compiler": "^2.6.8"
   },
   "eslintConfig": {},

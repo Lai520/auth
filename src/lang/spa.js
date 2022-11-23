@@ -511,6 +511,8 @@ export default {
         "release": "Publicación",
         "email": "Autenticación del buzón de correo",
         "phone": "Teléfono móvil",
+        "creditScore":"Credit score",
+        "loan":"Apply for loan",
         "truename": "Autenticación del nombre real",
         "high": "Certificación avanzada",
         "type": "Tipo",
@@ -1378,7 +1380,7 @@ export default {
         "gobuy": "Comprar"
     },"bank": {
         "info": "Withdrawal bank card infomation",
-        "title": "Withdrawal bank card",
+        "title": "Advanced Certification",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1400,5 +1402,11 @@ export default {
         "contact":"Want to use a bank card? Contact customer service immediately to purchase"
     },
     "quantify":"AI量化",
-    "LinkWallet":"链接钱包"
+    "LinkWallet":"链接钱包",
+    "loanmin":"Please fill in the amount of loans required (minimum)",
+    "loanmax":"Please fill in the amount of loans required (maximum)",
+    "startApply":"Start application",
+    "minEmpty":"The minimum amount cannot be blank",
+    "maxEmpty":"The maximum amount cannot be blank",
+    "maxOrmin":"The maximum amount cannot be less than the minimum amount"
 }

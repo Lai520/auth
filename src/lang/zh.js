@@ -526,6 +526,8 @@ export default {
         "release": "发布",
         "email": "邮箱认证",
         "phone": "手机",
+        "creditScore":"信用分",
+        "loan":"申请贷款",
         "truename": "实名认证",
         "high": "高级认证",
         "type": "类型",
@@ -1429,7 +1431,7 @@ export default {
     },
     "bank": {
         "info": "提现银行账号讯息",
-        "title": "提現銀行卡設定",
+        "title": "高级认证",
         "address": "銀行地址",
         "account": "銀行帳戶",
         "name": "銀行名稱",
@@ -1451,6 +1453,12 @@ export default {
         "contact":"想用銀行卡嗎？立即聯系線上客服購買"
     },
     "quantify":"AI量化",
-    "LinkWallet":"链接钱包"
+    "LinkWallet":"链接钱包",
+    "loanmum":"请填写需要贷款数的金额（最低）",
+    "loanmax":"请填写需要贷款数的金额（最高）",
+    "startApply":"开始申请",
+    "minEmpty":"最低金额不能为空",
+    "maxEmpty":"最高金额不能为空",
+    "maxOrmin":"最高金额不能小于最低金额"
 }
 

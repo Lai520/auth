@@ -510,6 +510,8 @@ export default {
         "release": "게시",
         "email": "사서함 인증",
         "phone": "휴대폰",
+        "creditScore":"신용분",
+        "loan":"대출을 신청하다",
         "truename": "실명 인증",
         "high": "고급 인증",
         "type": "유형",
@@ -1346,7 +1348,7 @@ export default {
         "ieorecord": "Subscription record",
     },"bank": {
         "info": "Withdrawal bank card infomation",
-        "title": "Withdrawal bank card",
+        "title": "Advanced Certification",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1368,5 +1370,11 @@ export default {
         "contact":"Want to use a bank card? Contact customer service immediately to purchase"
     },
     "quantify":"AI量化",
-    "LinkWallet":"链接钱包"
+    "LinkWallet":"链接钱包",
+    "loanmin":"필요한 대출 금액 (최저) 을 기입해 주십시오",
+    "loanmax":"대출 필요 금액 (최고) 을 기입해 주십시오",
+    "startApply":"신청 시작",
+    "minEmpty":"최소 금액은 비워둘 수 없습니다.",
+    "maxEmpty":"최대 금액은 비워둘 수 없습니다.",
+    "maxOrmin":"최고액은 최저금액보다 작아서는 안 된다."
 }

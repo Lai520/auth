@@ -604,6 +604,8 @@ export default {
         "release": "release",
         "email": "E-mail verification",
         "phone": "phone",
+        "creditScore":"Credit score",
+        "loan":"Apply for loan",
         "truename": "Name verification",
         "high": "Advanced verification",
         "type": "type",
@@ -1354,7 +1356,7 @@ export default {
     },
     "bank": {
         "info": "Withdrawal bank card infomation",
-        "title": "Withdrawal bank card",
+        "title": "Advanced Certification",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1376,5 +1378,11 @@ export default {
         "contact":"Want to use a bank card? Contact customer service immediately to purchase"
     },
     "quantify":"quantify",
-    "LinkWallet":"LinkWallet"
+    "LinkWallet":"LinkWallet",
+    "loanmin":"Please fill in the amount of loans required (minimum)",
+    "loanmax":"Please fill in the amount of loans required (maximum)",
+    "startApply":"Start application",
+    "minEmpty":"The minimum amount cannot be blank",
+    "maxEmpty":"The maximum amount cannot be blank",
+    "maxOrmin":"The maximum amount cannot be less than the minimum amount"
 }
