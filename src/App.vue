@@ -62,6 +62,7 @@ header.mu-appbar {
 </style>
 <script>
 import 'typeface-roboto'
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -70,8 +71,9 @@ export default {
       timer: false
     }
   },
-  created() {
+  async created() {
     let that = this;
+    await this.getConfigList()
     this.timer = setInterval(() => {
       let token = window.localStorage.getItem('token');
       if (token && token.length>10) {
@@ -84,6 +86,22 @@ export default {
         })
       }
     }, 10000);
+  },
+  computed:{
+    ...mapGetters(['getConfigInfo'])
+  },
+  methods:{
+    // 获取配置列表
+    async getConfigList() {
+      let res = await this.$http({
+        url: "/api/setting/list",
+        method: "get",
+      });
+      if (res.data.type == "ok") {
+        this.$store.commit("setConfigInfo", res.data.message);
+        document.title = this.getConfigInfo("webname");
+      }
+    },
   }
 }
 </script>

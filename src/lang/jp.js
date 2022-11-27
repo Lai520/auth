@@ -23,7 +23,7 @@ export default {
     "sendMailInput": "メールで受信した検証コードを入力してください",
     "pwd": "パスワード",
     "resend": "{number}秒後に再送信します",
-    "welcome": "Hi,Tokenomyにようこそ",
+    "welcome": "Hi,にようこそ",
     "accounts": "アカウント",
     "registers": "登録",
     "regiterStep1": "登録済み",
@@ -327,6 +327,8 @@ export default {
         "reau": "拒否しました（再認証してください）",
         "goau": "認証に行きます",
         "auing": "審査中",
+        "Fail": "不合格",
+        "pass": "に通じをつける",
         "goset": "設定に行きます",
         "accountset": "ユーザ設定",
         "setlogin": "ログイン認証方式を設定します。",
@@ -641,7 +643,7 @@ export default {
         "mrecord": "財務記録",
         "allRec": "総財務記録",
         "transfer": "漕ぎ回す",
-        "desc": "本チャージチャネルは暗号化された通貨の預金のみをサポートしています。あなたは自国通貨で預金します。必要であれば、オンラインカスタマーサービスに連絡して送金口座を取得してください"
+        "desc": "本チャージパスに変更すると暗号化された通貨の預金のみがサポートされますので、対応する通貨アドレスをチェックしてください。"
     },
     "set": {
         "secset": "セキュリティ設定",
@@ -1350,6 +1352,7 @@ export default {
     "bank": {
         "info": "キャッシュカード情報",
         "title": "高度な資格認定",
+        "bankCer": "銀行カード認証",
         "address": "銀行名",
         "account": "銀行口座",
         "name": "支店名",
@@ -1379,5 +1382,14 @@ export default {
     "maxEmpty":"最高金額は空白にできません",
     "maxOrmin":"最高金額は最低金額より小さくすることはできません",
     "cooperation":"協力機構",
-    "customer":"カスタマーサービスセンター"
+    "customer":"カスタマーサービスセンター",
+    "appRecord":"応募履歴",
+    "futures":"外国為替先物",
+    "emailError":"入力されたメールボックスが規則に合わない",
+    "frequently":"認証コードが送信されました。頻繁に操作しないでください",
+    "enterCode":"認証コードを入力してください",
+    "tbSuccess":"引き出し成功",
+    "tbFail":"引き出しに失敗しました",
+    "tjye":"残高の調整",
+    "sdye":"残高のロック",
 }

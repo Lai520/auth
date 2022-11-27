@@ -29,7 +29,7 @@
             <div v-if="charge=='USDT' || charge=='USDC'" class="flex">
                 <div class="flex1"></div>
                 <div @click="active=index" class="tabbt" :class="active===index?'active':''"
-                     v-for="(name,index) in Object.keys((charge=='USDT' || charge=='USDC')?usdt_wallet:wallets)">
+                     v-for="(name,index) in Object.keys((charge=='USDT' || charge=='USDC')?usdt_wallet:wallets)" :key="index">
                     {{ name.toUpperCase() }}
                 </div>
                 <div class="flex1"></div>
@@ -59,13 +59,19 @@
                     <mu-text-field style="width: 100%;" :label="$t('account.amount')"
                                    :suffix="charge"
                                    v-model="amount"></mu-text-field>
-                    <mu-text-field readonly="" v-model="pic===''?select:selected" style="width: 100%;"
+                    <mu-text-field v-if="!pic" readonly="" v-model="selected" style="width: 100%;"
                                    :label="$t('account.picture')">
                         <mu-button flat full-width slot="append" color="primary" @click="choosePic">{{
                             $t('account.choose') }}
                         </mu-button>
                     </mu-text-field>
-                    <mu-button full-width @click="openAlert=true" color="primary"
+                    <mu-text-field v-else readonly="" v-model="select" style="width: 100%;"
+                                   :label="$t('account.picture')">
+                        <mu-button flat full-width slot="append" color="primary" @click="choosePic">{{
+                            $t('account.choose') }}
+                        </mu-button>
+                    </mu-text-field>
+                    <mu-button full-width @click="rechargeSub" color="primary"
                                style="background: linear-gradient(to right, #218adc , #55c2ff);">
                         {{ $t('account.submitRecharge') }}
                     </mu-button>
@@ -76,7 +82,7 @@
                         <i class="currency_title">
                             {{ $t('account.a10') }}
                         </i></p>
-                    <input id="picture" @change="uploadFile" ref="uploads" type="file" style="display:none;"></input>
+                    <input id="picture" @change="uploadFile" ref="uploads" type="file" style="display:none;"/>
                 </div>
             </div>
         </mu-container>
@@ -258,7 +264,7 @@ export default {
       acc: "",
       amount: "",
       hash: "default",
-      pic: "default",
+      pic: "",
       select: "",
       selected: "",
       loading: false,
@@ -405,6 +411,14 @@ export default {
         height: 150,
         text: url, // 二维码地址
       });
+    },
+    // 充值提交
+    rechargeSub() {
+      if(!this.pic) {
+        this.$toast.error(this.$t('account.select'));
+        return
+      }
+      this.openAlert=true
     },
     submit() {
       let that = this;

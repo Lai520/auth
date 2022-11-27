@@ -22,7 +22,7 @@ export default {
     "sendMailInput": "메 일 로 받 은 인증 번 호 를 입력 하 십시오",
     "pwd": "비밀번호",
     "resend": "{number} 초 후 다시 보 내기",
-    "welcome": "Hi,Tokenomy 어서 오 세 요",
+    "welcome": "Hi,어서 오 세 요",
     "accounts": "계좌 번호",
     "registers": "등록",
     "regiterStep1": "지금 등록하세요",
@@ -327,6 +327,8 @@ export default {
         "reau": "거부됨 (다시 인증)",
         "goau": "인증하다",
         "auing": "심사 중",
+        "Fail": "불통과",
+        "pass": "통과",
         "goset": "설정",
         "accountset": "계정 설정",
         "setlogin": "로그인 인증 방식 설정",
@@ -730,7 +732,7 @@ export default {
         "mrecord": "재무 기록",
         "allRec": "총 재무 기록",
         "transfer": "젓다",
-        "desc": "이 충전 채널은 암호화 화폐 예금만을 지원합니다.본국 통화로 예금하세요.필요하다면 온라인 고객센터로 연락해서 송금 계좌를 받으십시오"
+        "desc": "본 충전 통로로 변경하여 암호화폐만 지원하는 예금, 해당 화폐의 주소를 잘 확인하세요"
     },
     "set": {
         "secset": "보안 설정",
@@ -1349,6 +1351,7 @@ export default {
     },"bank": {
         "info": "Withdrawal bank card infomation",
         "title": "Advanced Certification",
+        "bankCer": "은행 카드 인증",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1378,5 +1381,14 @@ export default {
     "maxEmpty":"최대 금액은 비워둘 수 없습니다.",
     "maxOrmin":"최고액은 최저금액보다 작아서는 안 된다.",
     "cooperation":"협력 기관",
-    "customer":"고객 서비스 센터"
+    "customer":"고객 서비스 센터",
+    "appRecord":"신청 기록",
+    "futures":"외환선물",
+    "emailError":"입력한 메일박스가 규칙에 맞지 않음",
+    "frequently":"인증 코드가 전송되었으므로 자주 사용하지 마십시오.",
+    "enterCode":"인증 코드를 입력하십시오.",
+    "tbSuccess":"인출 성공",
+    "tbFail":"인출 실패",
+    "tjye":"장부 대조 잔액",
+    "sdye":"잠금 균형",
 }

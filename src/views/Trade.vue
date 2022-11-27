@@ -28,7 +28,7 @@
                 <mu-drawer width="80%" :open.sync="open" :docked="docked" :right="position === 'right'">
                     <h4>USDT</h4>
                     <mu-list>
-                        <mu-container v-for="item in quotationsList">
+                        <mu-container v-for="(item,index) in quotationsList" :key="index">
                             <mu-list-item button @click="changeCurrency(item.currency_name,item.currency_id)">
                                 <mu-list-item-action>
                                     <mu-avatar size="20">
@@ -171,10 +171,11 @@
                             <mu-auto-complete :data="secondsNumbers"
                                               :color="tradeMode==='buy'?'success':'error'" :label="$t('miscro.num')"
                                               :suffix="secondModes[secondsMoneyMode].name" :max-search-results="6" v-model="tsnumber"
-                                              open-on-focus>
+                                              open-on-focus :placeholder="$t('lever.handbuy')">
                             </mu-auto-complete>
-
-
+                        </div>
+                        <div class="rateHint">
+                            {{$t('rate')}}
                         </div>
                         <div class="flex all mb15">
                             <mu-select :help-text="$t('miscro.rate') +' '+ tsrate+'%'" :color="tradeMode==='buy'?'success':'error'"
@@ -2109,7 +2110,11 @@ export default {
 
 <style lang="scss">
 
-
+.rateHint{
+    font-size: 12px;
+    text-align: left;
+    color:rgba(0,0,0,.54);
+}
     .tradeorder-box {
 
         top: 0;

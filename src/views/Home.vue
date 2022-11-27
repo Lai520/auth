@@ -2,12 +2,12 @@
   <mu-container class="container-my">
     <div class="home">
       <div class="header">
-        <div style="flex:1;"><h2 style="display: none">{{ $t('welcome') }}</h2>
-        <img style="width: 116px;height: 33px;" src="@/assets/logo.png">
+        <div style="flex:1;"><h2 style="display: none">{{ $t('welcome') + getConfigInfo('webname') }}</h2>
+        <img style="width: 116px;height: 33px;" :src="getConfigInfo('h5logo')">
         </div>
 
         <div class="BtnBox">
-          <mu-button @click="linkWallet" small color="primary">{{!!getWalletAddress?getWalletAddress :'链接钱包' | showWalletAddress(this)}}</mu-button>
+          <mu-button v-if="false" @click="linkWallet" small color="primary">{{!!getWalletAddress?getWalletAddress :'链接钱包' | showWalletAddress(this)}}</mu-button>
           <mu-button @click="toLogin" icon>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-gerenzhongxin_xuanzhong-copy"></use>
@@ -16,8 +16,7 @@
 
         </div>
         <div>
-          <mu-button ref="buttona" icon @click="openLanguage = !openLanguage">
-
+          <mu-button ref="buttona" icon @click="openLanguage = true">
             <svg class="icon" aria-hidden="true">
               <use v-if="lang=='zh'" xlink:href="#icon-zhongwen1"></use>
               <use v-if="lang=='spa'" xlink:href="#icon-xibanya"></use>
@@ -77,7 +76,7 @@ export default {
       shift: 'home',
       openLanguage: false,
       trigger: null,
-      lang: 'en',
+      lang: '',
       mode: localStorage.getItem('mode'),
       langArr: [
         // {
@@ -133,9 +132,17 @@ export default {
     Footer
   },
   mounted() {
-    this.trigger = this.$refs.buttona.$el;
-    this.lang = window.localStorage.getItem('lang').toLowerCase();
+    this.$nextTick(()=>{
+      this.trigger = this.$refs.buttona.$el;
+    })
     // this.linkWallet()
+    if(!localStorage.getItem("locale")){
+      let l = this.getConfigInfo('default_lan');
+      this.lang = l
+      this.changeLang(l)
+    }else{
+      this.lang = localStorage.getItem("locale") 
+    }
   },
   destroyed() {
     window.ethereum.removeListener('accountsChanged', ()=>{});
@@ -149,7 +156,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(["getWalletAddress"])
+    ...mapGetters(["getWalletAddress","getConfigInfo"])
   },
   methods: {
     // 链接钱包
@@ -180,7 +187,7 @@ export default {
       })
     },
     changeLang(lang) {
-      let l = window.localStorage.getItem("locale") || "en";
+      let l = localStorage.getItem("locale");
       if (l == lang) {
         return;
       } else {
@@ -191,6 +198,7 @@ export default {
         this.lang = lang;
         eventBus.$emit('refresh', lang);
       }
+      this.openLanguage = false
       location.reload();
     },
     toLogin() {

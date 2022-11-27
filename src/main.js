@@ -116,9 +116,8 @@ import "@/assets/style/common.css";
  *
  *  prodOrDev : 配置请求地址开关
  */
-const prodOrDev = 0;  // 生产打包设置为 1
 let ip = '', sip = '';
-if(prodOrDev === 0) {
+if(process.env.NODE_ENV === 'development') {
     ip = ''; // 测试
     sip = 'hw.tokenomy.vip';  //  测试
 } else {
@@ -130,7 +129,7 @@ let [bus_host, socket_api, socket_path] = [`${ip}`, `wss://${sip}:2050`, '/socke
 if (process.env.NODE_ENV === 'development') {
 
 } else {
-    bus_host = '';
+    bus_host = "";
     // socket_api = 'wss://' + document.domain + ":2030";
     socket_api = 'wss://' + document.domain + ":2050";
     socket_path = '/wss/socket.io/';
@@ -221,7 +220,6 @@ Axios.interceptors.response.use(response => {
 
 Vue.config.productionTip = false;
 
-Vue.prototype.platProjectName = platProjectName;
 
 Vue.use(new VueSocketIO({
     debug: false,
@@ -256,7 +254,7 @@ Vue.use(Message, {
 router.beforeEach((to, from, next) => {
     /* 路由发生变化修改页面title */
     if (to.meta.title) {
-        document.title = to.meta.title + ' - ' + Vue.prototype.platProjectName
+        document.title = to.meta.title
     }
     next()
 })

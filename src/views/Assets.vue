@@ -18,7 +18,7 @@
                 <p class="name" style="font-weight: bold;" >
                   <i v-if="level>0" class="iconfont icon-VIP" style="margin-right:5px; color: #edff00;">{{level}}</i>{{ account_num? account_num : '----' }}</p>
                 <p v-if="is_mock">{{$t('mock_user')}}</p>
-                <p class="user-id">ID:{{ addPreZero(user_id) }}</p>
+                <p class="user-id">ID:{{ user_id }}</p>
               </div>
             </div>
           </header>
@@ -176,7 +176,7 @@
               </mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-list-item-action>
-              <i class="currency_title">{{ item.transaction_info }}</i>
+              <i class="currency_title">{{ recordHint(item.type) }}</i>
               <i class="currency_title">{{ timeOffsetFn(item.created_time) }}</i>
             </mu-list-item-action>
           </mu-list-item>
@@ -295,6 +295,31 @@ export default {
     this.loadAssets();
   },
   methods: {
+    // 记录说明
+    recordHint(type) {
+      switch(type){
+        case 200:
+          return this.$t("account.charging")
+        case 99:
+          return this.$t("account.withdraw")
+        case 1580:
+          return this.$t("account.charging")
+        case 100:
+          return this.$t("tbSuccess")
+        case 101:
+          return this.$t("tbFail")
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+          return this.$t("tjye")
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+          return this.$t("sdye")
+      }
+    },
     getStatus(status){
       if(status===-1)
       {

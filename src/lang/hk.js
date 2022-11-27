@@ -21,7 +21,7 @@ export default {
     "sendMail": "郵箱安全驗證",
     "sendMailInput": "請輸入郵箱收到的驗證碼",
     "resend": "{number}秒後重新發送",
-    "welcome": "Hi,歡迎來到Tokenomy",
+    "welcome": "Hi,歡迎來到",
     "pwd": "密碼",
     "accounts": "賬號",
     "registers": "註冊",
@@ -327,6 +327,8 @@ export default {
         "reau": "已拒絕(請重新認證)",
         "goau": "去認證",
         "auing": "審核中",
+        "Fail": "不通过",
+        "pass": "通过",
         "goset": "去設置",
         "accountset": "賬戶設置",
         "setlogin": "設置登錄驗證方式",
@@ -598,6 +600,7 @@ export default {
         "freezes": "凍結",
         "conversion": "折合",
         "charging": "充幣",
+        "charrecord": "充币记录",
         "withdraw": "提幣",
         "record": "記錄",
         "copy": "複製",
@@ -635,7 +638,7 @@ export default {
         "mrecord": "財務記錄",
         "allRec": "總財務記錄",
         "transfer": "劃轉",
-        "desc": "本充值通路只支持加密貨幣的存款。 你用本國貨幣存款。 如果需要的話，請聯系線上客服取得匯款帳戶"
+        "desc": "本充值通路只支持加密貨幣的存款，请核对好对应的币种地址。 "
     },
     "set": {
         "secset": "安全設置",
@@ -1407,6 +1410,7 @@ export default {
     "bank": {
         "info": "提现银行账号讯息",
         "title": "高級認證",
+        "bankCer": "银行卡认证",
         "address": "銀行地址",
         "account": "銀行帳戶",
         "name": "銀行名稱",
@@ -1436,5 +1440,14 @@ export default {
     "maxEmpty":"最高金额不能为空",
     "maxOrmin":"最高金额不能小于最低金额",
     "cooperation":"合作机构",
-    "customer":"客服中心"
+    "customer":"客服中心",
+    "appRecord":"申请记录",
+    "futures":"外汇期货",
+    "emailError":"邮箱不符合规则",
+    "frequently":"验证码已发送，请勿频繁操作",
+    "enterCode":"请输入验证码",
+    "tbSuccess":"提币成功",
+    "tbFail":"提币失败",
+    "tjye":"调节余额",
+    "sdye":"锁定余额",
 }

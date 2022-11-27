@@ -1,9 +1,13 @@
 let state ={
     accountNum:'',
+	configObj:[], // 配置列表
     datas:{
 
     },
-	walletAddress:"",
+	walletAddress:"", // 钱包地址
+	balance:"", // 钱包余额
+	bigNumber:'', // 大数字
+	usdtBalanceString:"", // ustd余额
 	web3:null,
 	// symbol:'EOS/USDT',
 	// renew:'0',

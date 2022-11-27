@@ -78,28 +78,20 @@
                 <mu-button v-if="!goBank" full-width slot="append" @click="wb(0)" color="primary"
                            style="background: linear-gradient(to right, #218adc , #55c2ff);">{{ $t('account.withdraw')}}
                 </mu-button>
-                <div v-if="!info && showCustomer" style="color: rgb(33 143 221);
-    text-align: left;
-    width: 100%;
-    line-height: 2;
-    margin-top: 10px;">
+                <!-- <div v-if="!info && showCustomer"  class="hintInfo">
                     {{$t('bank.withdrawTip')}}
                 </div>
-                <div v-if="info"  style="color: #02341e;
-    text-align: left;
-    width: 100%;
-    line-height: 2;
-    margin-top: 10px;">
+                <div v-if="info"  class="hintInfo">
                     {{$t('bank.binded')}}<br>
                     {{info.bank_name}} :<b style="color:#331f00">********{{info.bank_account.substring(info.bank_account.length-4,info.bank_account.length)}}</b>
-                </div>
-                <mu-button v-if="!info" full-width @click="$router.push('/ucenter')" color="primary" style="background: linear-gradient(to right, #218adc , #55c2ff);">
+                </div> -->
+                <!-- <mu-button v-if="!info" full-width @click="$router.push('/ucenter')" color="primary" style="background: linear-gradient(to right, #218adc , #55c2ff);">
                     {{ $t('bindBankCard')}}
-                </mu-button>
-                <mu-button v-if="goBank && info" full-width slot="append" @click="wb(1)" color="success"
+                </mu-button> -->
+                <!-- <mu-button v-if="goBank && info" full-width slot="append" @click="wb(1)" color="success"
                            style="margin-top:10px; background: linear-gradient(to right, #00cf66 , #035231);">{{
                     $t('bank.withdraw') }}
-                </mu-button>
+                </mu-button> -->
                 <p class="tall hide">
                     <i class="currency_title">
                         {{ $t('account.a10') }}
@@ -152,7 +144,7 @@
                         </mu-list-item-action>
                     </mu-list-item>
                 </mu-list>
-                <div class="go-w" @click="goBank=1;openFullscreen=false">{{ $t('bank.withdraw')}}</div>
+                <!-- <div class="go-w" @click="goBank=1;openFullscreen=false">{{ $t('bank.withdraw')}}</div> -->
             </div>
         </mu-dialog>
     </div>
@@ -264,28 +256,34 @@ export default {
                 loading.close();
                 if (res.data.type === 'ok') {
                     that.wallets = res.data.message;
+                }else{
+                    that.wallets = []
+                    that.$toast.error(res.data.message);
                 }
+            }).catch((error)=>{
+                that.$toast.success(error);
+                that.wallets = []
             })
 
-            this.$http({
-                url: '/api/user/cash_info',
-                method: 'post',
-                data: {
-                    currency: 3,
-                },
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                }
-            }).then(res => {
-                loading.close();
-                if (res.data.type === 'ok') {
-                    if (res.data.message.account_number) {
-                        that.info = res.data.message;
-                    } else {
-                        that.$toast.info(that.$t('bindBankCard'));
-                    }
-                }
-            })
+            // this.$http({
+            //     url: '/api/user/cash_info',
+            //     method: 'post',
+            //     data: {
+            //         currency: 3,
+            //     },
+            //     headers: {
+            //         Authorization: localStorage.getItem('token')
+            //     }
+            // }).then(res => {
+            //     loading.close();
+            //     if (res.data.type === 'ok') {
+            //         if (res.data.message.account_number) {
+            //             that.info = res.data.message;
+            //         } else {
+            //             that.$toast.info(that.$t('bindBankCard'));
+            //         }
+            //     }
+            // })
         },
         wb(type){
             if(!this.hasTrancitionPassword) {
@@ -429,5 +427,12 @@ export default {
     .go-w{
         color: #2196f3;
         margin-left: 16px;
+    }
+    .hintInfo{
+        color: #02341e;
+    text-align: left;
+    width: 100%;
+    line-height: 2;
+    margin-top: 10px;
     }
 </style>

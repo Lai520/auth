@@ -22,7 +22,7 @@ export default {
     "sendMail": "Mailbox security verification",
     "sendMailInput": "Please enter the verification code received by the mailbox",
     "resend": "Resend in {number} second",
-    "welcome": "Hi,Welcome to Tokenomy",
+    "welcome": "Hi,Welcome to ",
     "pwd": "Password",
     "accounts": "Account",
     "registers": "Sign up",
@@ -135,8 +135,8 @@ export default {
         "sgr": "SGR Demand",
         "inset": "Receivables",
         "tradelog": "Transaction log",
-        "fastrecharge": "Quick recharge",
-        "rank": "Pledge"
+        "fastrecharge": "Quick deposit",
+        "rank": "Saving"
     },
     "footer": {
         "hxex": "Tokenomy Introduction",
@@ -227,7 +227,7 @@ export default {
         "Gcoin": "Tokenomy",
         "eamil1": "Business cooperation mailbox",
         "eamil2": "Customer service mailbox",
-        "kefu": "Service",
+        "kefu": "Customer service",
         "img1": "1_en.png",
         "img2": "2_en.png",
         "img3": "3_en.png",
@@ -250,12 +250,12 @@ export default {
         "dsp40": "Strictly select high-quality encryption projects, and filter 80% high-risk projects for you",
         "dsp5": "Open secure transactions anytime, anywhere",
         "dsp50": "It covers IOS, Android and windows platforms and supports full-service functions",
-        "down": "Down"
+        "down": "download"
     },
     "login": {
         "email": "Mailbox login",
         "phone": "Mobile phone login",
-        "welcome": "Welcome Log in Tokenomy",
+        "welcome": "Welcome Log in ",
         "account": "account number ",
         "forget": "Forget the password",
         "dont": "Not registered yet?",
@@ -420,6 +420,8 @@ export default {
         "reau": "Rejected (please re-vertify)",
         "goau": "To verify",
         "auing": "Verification in progress",
+        "Fail": "Fail",
+        "pass": "Pass",
         "goset": "Setting",
         "accountset": "Account setup",
         "setlogin": "Set login verification mode",
@@ -735,7 +737,7 @@ export default {
         "mrecord": "Financial records",
         "allRec": "Total financial records",
         "transfer": "Transfer",
-        "desc": "This recharge channel only supports cryptocurrency deposits. You deposit in local currency. If necessary, please contact the online customer service to obtain the remittance account."
+        "desc": "This recharge channel only supports cryptocurrency deposits. Please check the corresponding currency address."
     },
     "set": {
         "secset": "Security setting",
@@ -1357,6 +1359,7 @@ export default {
     "bank": {
         "info": "Withdrawal bank card infomation",
         "title": "Advanced Certification",
+        "bankCer": "Bank card authentication",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1386,5 +1389,14 @@ export default {
     "maxEmpty":"The maximum amount cannot be blank",
     "maxOrmin":"The maximum amount cannot be less than the minimum amount",
     "cooperation":"Cooperative institutions",
-    "customer":"Customer Service Center"
+    "customer":"Customer Service Center",
+    "appRecord":"Application record",
+    "futures":"Foreign exchange futures",
+    "emailError":"The mailbox entered does not conform to the rule",
+    "frequently":"The verification code has been sent, please do not operate frequently",
+    "enterCode":"Please enter the verification code",
+    "tbSuccess":"Withdrawal succeeded",
+    "tbFail":"Withdrawal failed",
+    "tjye":"Reconciliation balance",
+    "sdye":"Lock Balance",
 }

@@ -11,6 +11,18 @@ let mutations = {
     },
     setWeb3(state,web3){
         state.web3 = web3;
+    },
+    setBalance(state,balance) {
+        state.balance = balance
+    },
+    setBigNumber(state,bigNumber){
+        state.bigNumber = bigNumber
+    },
+    setUsdtBalance(state,usdtBalanceString){
+        state.usdtBalanceString = usdtBalanceString
+    },
+    setConfigInfo(state,configInfo) {
+        state.configObj = configInfo
     }
 }
 export default mutations

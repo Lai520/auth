@@ -72,6 +72,7 @@
 
 <script>
 import {timeOffset} from "@/lib/timeOffset";
+import { mapGetters } from "vuex";
 export default {
   name: "Help",
   data() {
@@ -87,6 +88,9 @@ export default {
     this.loadNews(19);
     this.loadNews(3);
     this.getCustorm();
+  },
+  computed:{
+    ...mapGetters(['getConfigInfo'])
   },
   methods: {
     getCustorm() {
@@ -140,7 +144,7 @@ export default {
           that.showInfo = res.data.message;
 
           that.showInfo.content += `<div class="talr" style="line-height: 40px; color:#555;">
-          <b>{{platProjectName}}</b><br/>
+          <b>{{getConfigInfo('webname')}}</b><br/>
           ${that.showInfo.create_time.substring(0,10)}
         </div>`;
         }

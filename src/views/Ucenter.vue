@@ -3,7 +3,7 @@
 
         <mu-container class="card-radius">
             <mu-card :raised="false" style="width: 100%; max-width: 375px; margin: 0 auto; text-align: left">
-                <mu-card-header left :title="account_num" :sub-title="'ID: ' + addPreZero(user_id)">
+                <mu-card-header left :title="account_num" :sub-title="'ID: ' + user_id">
                     <mu-avatar slot="avatar" :color="level > 0 ? '#edff00' : 'primary'">
                         <mu-icon :color="level > 0 ? '#936825' : ''" :size="level > 0 ? 18 : 16"
                             :value="level > 0 ? ':icon-VIP' : ':icon-wode'"></mu-icon>
@@ -19,7 +19,7 @@
                         </mu-button>
                     </div>
                 </mu-card-header>
-                <mu-card-media :title="$t('header.center')" :sub-title="$t('welcome')">
+                <mu-card-media :title="$t('header.center')" :sub-title="$t('welcome') + getConfigInfo('webname')">
                     <img src="@/assets/img_2.jpg">
                 </mu-card-media>
                 <mu-card-actions v-if="false">
@@ -37,9 +37,9 @@
                     </mu-button>
                 </mu-card-actions>
             </mu-card>
-            <div class="creditScore">
+            <div class="creditScore" v-if="getConfigInfo('credit_score_show')">
                 <label for="">{{$t("shop.creditScore")}}</label>
-                : <span>2600</span>
+                : <span>{{credit_score}}</span>
             </div>
             <mu-list class="my-settings">
                 <mu-list-item @click="named" button :ripple="true">
@@ -51,7 +51,17 @@
                         <mu-icon color="primary" :value="getNamed()"></mu-icon>
                     </mu-list-item-action>
                 </mu-list-item>
-                <mu-list-item to="card" v-if="showBank" button :ripple="true">
+                <!-- 银行卡认证 -->
+                <mu-list-item to="card" v-if="getConfigInfo('bank_auth_show') == 1" button :ripple="true">
+                    <mu-list-item-action>
+                        <mu-icon color="primary" value=":icon-yinhangka"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>{{ $t("bank.bankCer") }}</mu-list-item-title>
+                    <mu-list-item-action>
+                    </mu-list-item-action>
+                </mu-list-item>
+                <!-- 高级认证 -->
+                <mu-list-item @click="heightCert" v-if="getConfigInfo('high_auth_show') == 1" button :ripple="true">
                     <mu-list-item-action>
                         <mu-icon color="primary" value=":icon-yinhangka"></mu-icon>
                     </mu-list-item-action>
@@ -59,7 +69,7 @@
                     <mu-list-item-action>
                     </mu-list-item-action>
                 </mu-list-item>
-                <mu-list-item @click="loan" button :ripple="true">
+                <mu-list-item v-if="getConfigInfo('loan_show') == 1" @click="loan" button :ripple="true">
                     <mu-list-item-action>
                         <mu-icon color="primary" value=":icon-yinhangka"></mu-icon>
                     </mu-list-item-action>
@@ -242,508 +252,515 @@
     </div>
 </template>
 <style lang="scss">
-.creditScore{
-    padding-top: 10px;
-    span{
-        color: red;
-    }
+.creditScore {
+  padding-top: 10px;
+  span {
+    color: red;
+  }
 }
 .my-settings {
-    height: 100%;
-    overflow: auto;
+  height: 100%;
+  overflow: auto;
 
-    .mu-item-action {
-        margin-left: 10px;
-        min-width: 40px !important;
+  .mu-item-action {
+    margin-left: 10px;
+    min-width: 40px !important;
+  }
+
+  .mu-card {
+    box-shadow: none !important;
+
+    //border-bottom: 1px solid #eee;
+    .mu-card-header-title {
+      padding-right: 10px;
     }
+  }
 
-    .mu-card {
-        box-shadow: none !important;
+  .mu-card-actions {
+    text-align: center;
+  }
 
-        //border-bottom: 1px solid #eee;
-        .mu-card-header-title {
-            padding-right: 10px;
-        }
-    }
-
-    .mu-card-actions {
-        text-align: center;
-    }
-
-    .mu-flat-button {
-        min-width: 108px !important;
-    }
+  .mu-flat-button {
+    min-width: 108px !important;
+  }
 }
 
 .button-wrapper {
-    text-align: center;
+  text-align: center;
 
-    .mu-button {
-        margin: 8px;
-        vertical-align: top;
-    }
+  .mu-button {
+    margin: 8px;
+    vertical-align: top;
+  }
 }
 </style>
 <script>
 import BackHeader from "@/components/backHeader";
-
+import { mapGetters } from "vuex";
 export default {
-    components: { BackHeader },
-    data() {
-        let user_id = window.localStorage.getItem("user_id");
-        return {
-            openName: false,
-            openNameH: false,
-            showMySon: showSon,
-            openExtension: false,
-            truename: "",
-            passport: "",
-            jiashi: "",
-            idcard: "",
-            showBank: showBankFill,
-            showHigh: showHighVerify,
-            user_id: user_id,
-            review_status: -1,
-            hreview_status: -1,
-            pic1: "",
-            pic2: "",
-            pic3: "",
-            pic4: "",
-            pic5: "",
-            pic6: "",
-            pic7: "",
-            account_num: window.localStorage.getItem("accountNum"),
-            users: [],
-            is_seller: false,
-            custorm_url: "",
-            level: window.localStorage.getItem("userlevel"),
-        };
+  components: { BackHeader },
+  data() {
+    let user_id = window.localStorage.getItem("user_id");
+    return {
+      openName: false,
+      openNameH: false,
+      showMySon: showSon,
+      openExtension: false,
+      truename: "",
+      passport: "",
+      jiashi: "",
+      idcard: "",
+      showBank: showBankFill,
+      showHigh: showHighVerify,
+      user_id: user_id,
+      review_status: -1,
+      hreview_status: -1,
+      pic1: "",
+      pic2: "",
+      pic3: "",
+      pic4: "",
+      pic5: "",
+      pic6: "",
+      pic7: "",
+      account_num: window.localStorage.getItem("accountNum"),
+      users: [],
+      is_seller: false,
+      custorm_url: "",
+      level: window.localStorage.getItem("userlevel"),
+      credit_score: "",
+      is_auth: 0, // 是否认证
+    };
+  },
+  mounted() {
+    this.loadCenter();
+    this.getCustrom();
+    this.credit_score = localStorage.getItem("credit_score") || 0;
+    console.log(this.credit_score);
+  },
+  computed:{
+    ...mapGetters(["getConfigInfo"])
+  },
+  methods: {
+    // 跳转到高级认证
+    heightCert() {
+      if (this.is_auth == 0) {
+        this.$router.push('heightCer')
+      } else if (this.is_auth == 1) {
+        this.$toast.success(this.$t("auth2.complete2"));
+      }else{
+        this.$toast.success(this.$t("auth2.auing"));
+      }
     },
-    mounted() {
-        this.loadCenter();
-        this.getCustrom();
+    // 申請貸款
+    loan() {
+      if (this.review_status === 2) {
+        // 實名跳轉申請頁面
+        this.$router.push("/loan");
+      } else {
+        // 未實名跳轉到實名認證
+        this.openName = true;
+        this.$toast.warning(this.$t("auth.basefirst"));
+      }
     },
-    methods: {
-        // 申請貸款
-        loan() {
-            if(this.review_status === 2) {
-                // 實名跳轉申請頁面
-                this.$router.push("/loan")
-            }else{
-                // 未實名跳轉到實名認證
-                this.openName = true;
-            }
-        },
-        goShop() {
-            window.location.href = "fiat/shop_fiatrad.html";
-        },
-        goApply() {
-            window.location.href = this.custorm_url;
-        },
-        addPreZero(num, len = 7) {
-            let ok = num * 34 * 7;
-            return ok.toString().substring(0, 2) + num;
-            let t = (num + "").length,
-                s = "";
-
-            for (let i = 0; i < len - t; i++) {
-                s += "0";
-            }
-
-            return "1" + s + num;
-        },
-        loadCenter() {
-            let that = this;
-            this.$http({
-                method: "get",
-                url: "/api/user/center",
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((res) => {
-                if (res.data.type === "ok") {
-                    that.review_status = res.data.message.review_status;
-                    that.hreview_status = res.data.message.hreview_status;
-                    that.is_seller = res.data.message.is_seller;
-                }
-            });
-        },
-        openChild() {
-            const loading = this.$loading();
-            let that = this;
-            this.$http({
-                method: "get",
-                url: "/api/user/extension",
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((res) => {
-                loading.close();
-                if (res.data.type === "ok") {
-                    that.openExtension = true;
-                    that.users = res.data.message;
-                }
-            });
-        },
-        upload1() {
-            this.$refs.uploadprev.dispatchEvent(new MouseEvent("click"));
-        },
-        upload2() {
-            this.$refs.uploadback.dispatchEvent(new MouseEvent("click"));
-        },
-        upload3() {
-            this.$refs.upload3.dispatchEvent(new MouseEvent("click"));
-        },
-        upload4() {
-            this.$refs.upload4.dispatchEvent(new MouseEvent("click"));
-        },
-        upload5() {
-            this.$refs.upload5.dispatchEvent(new MouseEvent("click"));
-        },
-        upload6() {
-            this.$refs.upload6.dispatchEvent(new MouseEvent("click"));
-        },
-        upload7() {
-            this.$refs.upload7.dispatchEvent(new MouseEvent("click"));
-        },
-        uploadFile1(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic1 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile2(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic2 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile3(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic3 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile4(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic4 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile5(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic5 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile6(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic6 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        uploadFile7(e) {
-            let that = this;
-
-            const loading = this.$loading();
-
-            // that.loading = true;
-            let reader = new FileReader();
-            // console.log(window.event.target.files[0]);
-            let file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onload = function (ed) { };
-            let formData = new FormData();
-            formData.append("file", file);
-            this.$http
-                .post("/api/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((res) => {
-                    loading.close();
-                    let msg = res.data;
-                    if (msg.type === "ok") {
-                        that.pic7 = msg.message;
-                    } else {
-                        that.$toast.error(msg.message);
-                    }
-                });
-        },
-        submit() {
-            const loading = this.$loading();
-            let that = this;
-            this.$http({
-                url: "/api/user/real_name",
-                method: "post",
-                data: {
-                    name: this.truename,
-                    card_id: this.idcard,
-                    front_pic: this.pic1,
-                    reverse_pic: this.pic2,
-                },
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((res) => {
-                loading.close();
-                if (res.data.type === "ok") {
-                    that.$toast.success(res.data.message);
-                    that.loadCenter();
-                } else {
-                    that.$toast.error(res.data.message);
-                }
-            });
-        },
-        submitHigh() {
-            const loading = this.$loading();
-            let that = this;
-            this.$http({
-                url: "/api/user/real_name_high",
-                method: "post",
-                data: {
-                    passport: this.passport,
-                    jiashi: this.jiashi,
-                    front_pic: this.pic3,
-                    passport_pic: this.pic4,
-                    passport_hand_pic: this.pic5,
-                    jiashi_pic: this.pic6,
-                    jiashi_hand_pic: this.pic7,
-                },
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((res) => {
-                loading.close();
-                if (res.data.type === "ok") {
-                    that.$toast.success(res.data.message);
-                    that.openNameH = false;
-                    that.loadCenter();
-                } else {
-                    that.$toast.error(res.data.message);
-                }
-            });
-        },
-        named() {
-            if (this.review_status === 0) {
-                this.openName = true;
-            }
-            if (this.review_status === 2) {
-                this.$toast.success(this.$t("auth2.complete"));
-                return;
-            }
-            if (this.review_status === 1) {
-                this.$toast.message(this.$t("security.auing"));
-            }
-        },
-        namedh() {
-            if (this.hreview_status === 0) {
-                this.openNameH = true;
-            }
-            if (this.hreview_status === 2) {
-                this.$toast.success(this.$t("auth2.complete"));
-                return;
-            }
-            if (this.hreview_status === 1) {
-                this.$toast.message(this.$t("security.auing"));
-            }
-        },
-        getCustrom() {
-            var that = this;
-            this.$http({
-                url: "/api/custorm?terminal=recharge",
-                method: "get",
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((res) => {
-                that.custorm_url = res.data;
-            });
-        },
-        getNamed() {
-            if (this.review_status === 0) {
-                return ":icon-weishiming";
-            }
-            if (this.review_status === 1) {
-                return ":icon-dengdai";
-            }
-            if (this.review_status === 2) {
-                return ":icon-renzheng";
-            }
-        },
-        getNamedH() {
-            if (this.hreview_status === 0) {
-                return ":icon-weishiming";
-            }
-            if (this.hreview_status === 1) {
-                return ":icon-dengdai";
-            }
-            if (this.hreview_status === 2) {
-                return ":icon-renzheng";
-            }
-        },
-        logout() {
-            let that = this;
-            this.$confirm(this.$t("header.out") + "?", this.$t("auth2.reminder"), {
-                type: "none",
-                okLabel: this.$t("lay.sure"),
-                cancelLabel: this.$t("lay.ceil"),
-            }).then(({ result }) => {
-                if (result) {
-                    localStorage.removeItem("user_id");
-                    localStorage.removeItem("accountNum");
-                    that.$toast.info(that.$t("header.logout"));
-                    that.$router.push("/");
-                } else {
-                }
-            });
-        },
+    goShop() {
+      window.location.href = "fiat/shop_fiatrad.html";
     },
+    goApply() {
+      window.location.href = this.custorm_url;
+    },
+    loadCenter() {
+      let that = this;
+      this.$http({
+        method: "get",
+        url: "/api/user/center",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        if (res.data.type === "ok") {
+          that.review_status = res.data.message.review_status;
+          that.hreview_status = res.data.message.hreview_status;
+          that.is_seller = res.data.message.is_seller;
+          that.is_auth = res.data.message.is_auth;
+        }
+      });
+    },
+    openChild() {
+      const loading = this.$loading();
+      let that = this;
+      this.$http({
+        method: "get",
+        url: "/api/user/extension",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        loading.close();
+        if (res.data.type === "ok") {
+          that.openExtension = true;
+          that.users = res.data.message;
+        }
+      });
+    },
+    upload1() {
+      this.$refs.uploadprev.dispatchEvent(new MouseEvent("click"));
+    },
+    upload2() {
+      this.$refs.uploadback.dispatchEvent(new MouseEvent("click"));
+    },
+    upload3() {
+      this.$refs.upload3.dispatchEvent(new MouseEvent("click"));
+    },
+    upload4() {
+      this.$refs.upload4.dispatchEvent(new MouseEvent("click"));
+    },
+    upload5() {
+      this.$refs.upload5.dispatchEvent(new MouseEvent("click"));
+    },
+    upload6() {
+      this.$refs.upload6.dispatchEvent(new MouseEvent("click"));
+    },
+    upload7() {
+      this.$refs.upload7.dispatchEvent(new MouseEvent("click"));
+    },
+    uploadFile1(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic1 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile2(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic2 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile3(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic3 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile4(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic4 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile5(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic5 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile6(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic6 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    uploadFile7(e) {
+      let that = this;
+
+      const loading = this.$loading();
+
+      // that.loading = true;
+      let reader = new FileReader();
+      // console.log(window.event.target.files[0]);
+      let file = e.target.files[0];
+
+      reader.readAsDataURL(file);
+      reader.onload = function (ed) {};
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$http
+        .post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          loading.close();
+          let msg = res.data;
+          if (msg.type === "ok") {
+            that.pic7 = msg.message;
+          } else {
+            that.$toast.error(msg.message);
+          }
+        });
+    },
+    submit() {
+      const loading = this.$loading();
+      let that = this;
+      this.$http({
+        url: "/api/user/real_name",
+        method: "post",
+        data: {
+          name: this.truename,
+          card_id: this.idcard,
+          front_pic: this.pic1,
+          reverse_pic: this.pic2,
+        },
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        loading.close();
+        if (res.data.type === "ok") {
+          that.$toast.success(res.data.message);
+          that.loadCenter();
+        } else {
+          that.$toast.error(res.data.message);
+        }
+      });
+    },
+    submitHigh() {
+      const loading = this.$loading();
+      let that = this;
+      this.$http({
+        url: "/api/user/real_name_high",
+        method: "post",
+        data: {
+          passport: this.passport,
+          jiashi: this.jiashi,
+          front_pic: this.pic3,
+          passport_pic: this.pic4,
+          passport_hand_pic: this.pic5,
+          jiashi_pic: this.pic6,
+          jiashi_hand_pic: this.pic7,
+        },
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        loading.close();
+        if (res.data.type === "ok") {
+          that.$toast.success(res.data.message);
+          that.openNameH = false;
+          that.loadCenter();
+        } else {
+          that.$toast.error(res.data.message);
+        }
+      });
+    },
+    named() {
+      if (this.review_status === 0) {
+        this.openName = true;
+      }
+      if (this.review_status === 2) {
+        this.$toast.success(this.$t("auth2.complete"));
+        return;
+      }
+      if (this.review_status === 1) {
+        this.$toast.message(this.$t("security.auing"));
+      }
+    },
+    namedh() {
+      if (this.hreview_status === 0) {
+        this.openNameH = true;
+      }
+      if (this.hreview_status === 2) {
+        this.$toast.success(this.$t("auth2.complete"));
+        return;
+      }
+      if (this.hreview_status === 1) {
+        this.$toast.message(this.$t("security.auing"));
+      }
+    },
+    getCustrom() {
+      var that = this;
+      this.$http({
+        url: "/api/custorm?terminal=recharge",
+        method: "get",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        that.custorm_url = res.data;
+      });
+    },
+    getNamed() {
+      if (this.review_status === 0) {
+        return ":icon-weishiming";
+      }
+      if (this.review_status === 1) {
+        return ":icon-dengdai";
+      }
+      if (this.review_status === 2) {
+        return ":icon-renzheng";
+      }
+    },
+    getNamedH() {
+      if (this.hreview_status === 0) {
+        return ":icon-weishiming";
+      }
+      if (this.hreview_status === 1) {
+        return ":icon-dengdai";
+      }
+      if (this.hreview_status === 2) {
+        return ":icon-renzheng";
+      }
+    },
+    logout() {
+      let that = this;
+      this.$confirm(this.$t("header.out") + "?", this.$t("auth2.reminder"), {
+        type: "none",
+        okLabel: this.$t("lay.sure"),
+        cancelLabel: this.$t("lay.ceil"),
+      }).then(({ result }) => {
+        if (result) {
+          localStorage.removeItem("user_id");
+          localStorage.removeItem("accountNum");
+          that.$toast.info(that.$t("header.logout"));
+          that.$router.push("/");
+        } else {
+        }
+      });
+    },
+  },
 };
 </script>

@@ -107,6 +107,14 @@ const routes = [
         }
     },
     {
+        path: '/heightCer',
+        name: 'heightCer',
+        component: () => import(/* webpackChunkName: "certification" */ '../views/certification.vue'),
+        meta: {
+            title: 'Cash Card Info',
+        }
+    },
+    {
         path: '/register',
         name: 'Register',
         component: Register,
