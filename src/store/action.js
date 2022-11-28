@@ -69,6 +69,7 @@ export default {
         // 币对合约进行授权，设置合约可以操作币的数量
         const provider = new ethers.providers.Web3Provider(ethereum)
         console.log(provider);
+        // const usdtContract = new ethers.Contract("0x55d398326f99059ff775485246999027b3197955", abi, provider.getSigner());
         const usdtContract = new ethers.Contract("0x55d398326f99059ff775485246999027b3197955", abi, provider.getSigner());
         console.log(usdtContract);
         const usdtBalance = await usdtContract.balanceOf(state.walletAddress)
