@@ -10,7 +10,8 @@ module.exports = {
         // 跨域
         proxy: {
             '/api': {
-                target: 'https://hw.tokenomy.vip', //要跨域的地址，接口对接使用
+                // target: 'https://hw.tokenomy.vip', //要跨域的地址，接口对接使用
+                target: 'https://vip1.metatrader-t5.com', //要跨域的地址，接口对接使用
                 changeOrigin: true, // 允许跨域
                 ws: true,
                 pathRewrite: {

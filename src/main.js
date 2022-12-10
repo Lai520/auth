@@ -47,6 +47,10 @@ Number.prototype.toRound = function (num) {
     return Math.round(this * Math.pow(10, num)) / Math.pow(10, num);
 };
 
+//注册全局过滤器
+import * as filters from "./filter";
+Object.keys(filters).forEach((k) => Vue.filter(k, filters[k]));
+
 theme.add('teal_day', {
     primary: '#2196f3',
     secondary: '#000000',

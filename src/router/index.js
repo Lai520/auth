@@ -229,7 +229,12 @@ const routes = [
     {
         path: '/loan',
         name: 'Loan',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Loan.vue')
+        component: () => import(/* webpackChunkName: "Loan" */ '../views/Loan.vue')
+    },
+    {
+        path: '/abbuyNewCurrencyout',
+        name: 'abbuyNewCurrencyout',
+        component: () => import(/* webpackChunkName: "abbuyNewCurrencyout" */ '../views/buyNewCurrency.vue')
     },
 ]
 

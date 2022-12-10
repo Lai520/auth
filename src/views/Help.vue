@@ -20,7 +20,7 @@
             </svg>
             <p class="subtitle">{{ $t('tpc.nodata') }}</p>
           </div>
-          <mu-list-item @click="showDetail(item.id)" v-for="(item,index) in notices" avatar button :ripple="true">
+          <mu-list-item @click="showDetail(item.id)" :key="item.id" v-for="(item,index) in notices" avatar button :ripple="true">
             <mu-list-item-action>
               <mu-avatar :color="index%2==0?'primary':'amber500'">
                 <mu-icon value=":icon-gonggao5"></mu-icon>
@@ -52,8 +52,8 @@
               </mu-button>
             </mu-list-item-action>
           </mu-list-item>
-          <div class="account-desc">
-            {{$t('account.desc')}}
+          <div v-if="(getConfigInfo('bank_charge') == 1)" class="account-desc">
+            {{$t('account.desc1')}}
           </div>
         </mu-list>
       </mu-container>

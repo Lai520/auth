@@ -59,7 +59,7 @@
                     <mu-text-field style="width: 100%;" :label="$t('account.amount')"
                                    :suffix="charge"
                                    v-model="amount"></mu-text-field>
-                    <mu-text-field v-if="!pic" readonly="" v-model="selected" style="width: 100%;"
+                    <mu-text-field v-if="pic" readonly="" v-model="selected" style="width: 100%;"
                                    :label="$t('account.picture')">
                         <mu-button flat full-width slot="append" color="primary" @click="choosePic">{{
                             $t('account.choose') }}
@@ -140,9 +140,10 @@
                         </mu-list-item-action>
                     </mu-list-item>
                     <mu-divider></mu-divider>
-                    <div style="padding: 6px 16px;">{{$t('account.desc')}}</div>
+                    <div v-if="(getConfigInfo('bank_charge') == 1)" style="padding: 6px 16px;">{{$t('account.desc1')}}</div>
+                    <div v-else style="padding: 6px 16px;">{{$t('account.desc')}}</div>
                     <mu-divider></mu-divider>
-                    <mu-list-item v-if="showCustomer" :href="customer_url" button :ripple="true">
+                    <mu-list-item v-if="false" :href="customer_url" button :ripple="true">
                         <mu-list-item-title style="color:#005cf6;">{{$t("customerRecharge")}}</mu-list-item-title>
                         <mu-list-item-action>
                             <mu-icon color="primary" value=":icon-star"></mu-icon>
@@ -241,6 +242,7 @@
 import QRCode from "qrcodejs2";
 import Clipboard from "clipboard";
 import customerPop from "@/components/customerPop";
+import { mapGetters } from "vuex";
 export default {
   name: "Recharge",
   components: {
@@ -248,7 +250,7 @@ export default {
   },
   data() {
     return {
-      showCustomer: showCustomerBank,
+      showCustomer:showCustomer,
       showBtc: showBTCR,
       showETH: showETHR,
       showInfo: showInfo,
@@ -282,6 +284,9 @@ export default {
     charge(val) {
       this.getWallets();
     },
+  },
+  computed:{
+    ...mapGetters(["getConfigInfo"])
   },
   mounted() {
     let that = this;

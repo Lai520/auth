@@ -147,6 +147,14 @@
           </mu-ripple>
         </div>
       </div>
+      <!-- 新币购买 -->
+      <section
+        v-if="getConfigInfo('new_currency_open') == 1"
+        class="newCurrency"
+        @click="goBuy"
+      >
+        <span>{{ $t("新币申购") }}</span>
+      </section>
       <div
         style="width: 100%; height: 5px"
         :style="getDayColor('background-color')"
@@ -307,6 +315,21 @@
       </mu-alert>
     </div>
     <customerPop :openPop.sync="customerPopup" />
+    <!-- 公告弹框 -->
+    <mu-dialog width="360" :open.sync="openAlert">
+      <section class="noticeDialog">
+        <mu-button class="close" icon @click="closeAlert">
+          <mu-icon value=":icon-guanbi"></mu-icon>
+        </mu-button>
+        <header>
+          {{ $t("notice") }}
+        </header>
+        <main>
+          <div>{{ noticeContent.title }}</div>
+          <section v-html="noticeContent.content"></section>
+        </main>
+      </section>
+    </mu-dialog>
   </mu-container>
 </template>
 
@@ -324,6 +347,7 @@ let instance;
 export default {
   data() {
     return {
+      noticeContent: {}, // 公告内容
       showDownloadBtn: true,
       showCustomer: showCustomer,
       showDownload: false,
@@ -372,7 +396,7 @@ export default {
     console.log("大");
   },
   computed: {
-    ...mapGetters(["getWalletAddress","getConfigInfo"]),
+    ...mapGetters(["getWalletAddress", "getConfigInfo", "openAlert"]),
     text() {
       return this.notices.length > 0
         ? {
@@ -387,7 +411,7 @@ export default {
         : {
             id: 0,
             val: {
-              title: this.$t("welcome") + this.getConfigInfo('webname'),
+              title: this.$t("welcome") + this.getConfigInfo("webname"),
             },
           };
     },
@@ -500,7 +524,10 @@ export default {
     this.getCustomer();
   },
   methods: {
-    
+    // 关闭公告弹框
+    closeAlert() {
+      this.$store.commit("setAlert", 2);
+    },
     goPage(index, item) {
       if (item.link == "kefu" || item.link == "down") {
         this.gotoCustomer(item.link);
@@ -581,7 +608,6 @@ export default {
         .then((res) => {
           if (res.data.type == "ok") {
             let pics = [];
-
             for (let i = res.data.message.list.length - 1; i >= 0; i--) {
               let item = res.data.message.list[i];
               pics.push({
@@ -610,6 +636,11 @@ export default {
         .then((res) => {
           if (res.data.type == "ok") {
             let pics = [];
+            this.noticeContent =
+              res.data.message.list.find((item) => item.isShow == 1) || {};
+            if (this.noticeContent?.title && this.$store.state.isAlert == 0) {
+              this.$store.commit("setAlert", 1);
+            }
             for (let i = res.data.message.list.length - 1; i >= 0; i--) {
               let item = res.data.message.list[i];
               pics.push({
@@ -631,7 +662,7 @@ export default {
         });
     },
     gotoCustomer(link) {
-      if (link === "down") location.href = this.getConfigInfo('android_direct');
+      if (link === "down") location.href = this.getConfigInfo("android_direct");
       else if (link === "kefu") this.customerPopup = true;
       // if (this.showCustomer) {
       //     //  alert(this.customer_url)
@@ -751,10 +782,61 @@ export default {
     timeOffsetFn(time) {
       return timeOffset(time);
     },
+    // 购买新币
+    goBuy() {
+      if (localStorage.getItem("token")) {
+        this.$router.push("/abbuyNewCurrencyout");
+      } else {
+        this.$router.push("/login");
+      }
+    },
   },
 };
 </script>
 <style lang="scss">
+.newCurrency {
+  width: 100%;
+  height: 120px;
+  background: url("../assets/img_2.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    color: #fff;
+    font-size: 35px;
+  }
+}
+.noticeDialog {
+  position: relative;
+  header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .close {
+    padding: 0;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 25px;
+    height: 25px;
+    color: #333;
+  }
+  main {
+    margin-top: 15px;
+    max-height: 70vh;
+    overflow: auto;
+    div {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    section {
+      font-size: 14px;
+      // text-indent: 28px;
+    }
+  }
+}
 .swiper-slide {
   transition: all 0.6s;
 }

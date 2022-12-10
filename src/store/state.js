@@ -1,5 +1,6 @@
 let state ={
     accountNum:'',
+	isAlert:0, // 是否弹出公告 0 未弹出过 1 弹出 2 弹出过
 	configObj:[], // 配置列表
     datas:{
 

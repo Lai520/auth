@@ -21,15 +21,15 @@
             <div class="sign">($)</div>
             <span>进入挖矿</span>
           </div>
-          <div class="profit">
+          <!-- <div class="profit">
             <div>挖矿收益</div>
             <div>查看收益</div>
-          </div>
+          </div> -->
           <div class="participate">
             <mu-button @click="toGrantAuthorization" small color="primary"
               >参与</mu-button
             >
-            <div class="threshold">需求金额XXX USDT</div>
+            <div class="threshold">需求金额10 USDT</div>
           </div>
         </div>
       </section>
@@ -67,7 +67,11 @@ export default {
     async toGrantAuthorization() {
       // this.onAddCoin()
       // this.getBalance()
-      this.onApprove()
+      this.onApprove().then(res=>{
+
+      }).catch(err=>{
+        that.$toast.error("已拒绝授权");
+      })
     },
   },
 };

@@ -7,7 +7,7 @@
         </div>
 
         <div class="BtnBox">
-          <mu-button v-if="false" @click="linkWallet" small color="primary">{{!!getWalletAddress?getWalletAddress :'链接钱包' | showWalletAddress(this)}}</mu-button>
+          <mu-button v-if="(getConfigInfo('open_wallet') == 1)" @click="linkWallet" small color="primary">{{!!getWalletAddress?getWalletAddress :'链接钱包' | showWalletAddress(this)}}</mu-button>
           <mu-button @click="toLogin" icon>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-gerenzhongxin_xuanzhong-copy"></use>

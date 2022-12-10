@@ -30,7 +30,22 @@
             </mu-select>
           </mu-text-field>
         </mu-form-item>
-        <mu-form-item v-if="showCode"  :label="$t('register.codenum')" prop="password">
+        <mu-form-item
+          v-if="(getConfigInfo('register_valid') == 2)"
+          :label="$t('account2.code')"
+          prop="code"
+        >
+          <mu-text-field v-model="validateForm.code" prop="captcha">
+            <img
+              class="imgCode"
+              @click="getImgCode"
+              slot="append"
+              :src="imgCode"
+              alt=""
+            />
+          </mu-text-field>
+        </mu-form-item>
+        <mu-form-item v-if="(getConfigInfo('register_valid') == 1)"  :label="$t('register.codenum')" prop="password">
           <mu-text-field type="number" autoComplete="new-password" v-model="validateForm.code"
                          prop="code">
             <div slot="append">
@@ -92,6 +107,7 @@
 import country from '../lib/country.js'
 import getUrlKey from '@/lib/getUrlKey';
 import customerPop from '@/components/customerPop'
+import {mapGetters} from "vuex"
 export default {
   components: {
     customerPop
@@ -99,7 +115,7 @@ export default {
   data() {
     return {
       mode: 1,
-      showCode:showVerifyCode,
+      imgCode:"",
       showInvite:showInvite,
       mobileRegister:showMobileRegister,
       usernameRules: [
@@ -114,7 +130,7 @@ export default {
       validateForm: {
         area_code: '+86',
         email: '',
-        code: showVerifyCode?'':defaultCode,
+        code: '',
         isAgree: false,
         country: 'China',
         logpwd: '',
@@ -145,8 +161,32 @@ export default {
       this.validateForm.invitecode = code;
       this.hasCode = true;
     }
+    if(this.getConfigInfo("register_valid") == 2){
+      this.getImgCode();
+    }
+  },
+  computed:{
+    ...mapGetters(["getConfigInfo"])
   },
   methods: {
+    // 获取图片验证码
+    getImgCode() {
+      // '/api/captcha?'+new Date().getTime()
+      this.$http({
+        url: "/api/captcha",
+        method: "get",
+      })
+        .then((res) => {
+          if (res.data.type === "ok") {
+            this.imgCode = res.data.message.captcha;
+          } else {
+            this.$toast.error(res.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     back(){
       if(this.hasCode) this.$router.push('/');
       else this.$router.back(-1);
@@ -308,7 +348,10 @@ export default {
     text-align: left;
     width: 100%;
   }
-
+  .imgCode {
+  width: 100px;
+  height: 100%;
+}
   .wrap {
     height: 100%;
     text-align: left

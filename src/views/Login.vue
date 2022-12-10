@@ -113,10 +113,12 @@
           </mu-text-field>
         </mu-form-item>
         <mu-form-item prop="isAgree">
-          <mu-checkbox
+          <div>
+            <mu-checkbox
             :label="$t('login.autologin')"
             v-model="validateForm.isAgree"
           ></mu-checkbox>
+          </div>
         </mu-form-item>
         <mu-button
           color="primary"
@@ -135,13 +137,25 @@
           >
         </div>
       </mu-form>
+      <div class="email">
+        <a @click="(customerPopup = true)">
+          {{$t("home.kefu")}}
+        </a>
+      </div>
     </mu-container>
+    <customerPop :openPop.sync="customerPopup" />
   </div>
 </template>
 <style lang="scss" scoped>
 body {
   background: #000;
   text-align: left;
+}
+.email{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 .imgCode {
   width: 100px;
@@ -165,9 +179,12 @@ body {
 </style>
 <script>
 import { mapGetters } from "vuex";
+import customerPop from "@/components/customerPop";
 export default {
+  components:{customerPop},
   data() {
     return {
+      customerPopup:false,
       usernameRules: [
         { validate: (val) => !!val, message: "必须填写用户名" },
         { validate: (val) => val.length >= 3, message: "用户名长度大于3" },
@@ -313,7 +330,7 @@ export default {
             );
             localStorage.setItem("is_seller", res.data.message.is_seller);
             localStorage.setItem("userlevel", res.data.message.level);
-            localStorage.setItem("credit_score", res.data.message.credit_score);
+            localStorage.setItem("credit_score", res.data.message.credit_score || 0);
             eventBus.$emit("seller", res.data.message.is_seller);
             localStorage.setItem("mockuser", res.data.message.is_mock);
           }
@@ -331,7 +348,7 @@ export default {
         this.$toast.error(this.$t("register.logpwd"));
         return;
       }
-      if (!this.validateForm.captcha) {
+      if (!this.validateForm.captcha && this.getConfigInfo('login_valid') == 1) {
         this.$toast.error(this.$t("register.codenum"));
         return;
       }

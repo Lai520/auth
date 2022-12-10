@@ -283,7 +283,7 @@ export default {
     },
     "forget": {
         "fpwd": "Forget the password",
-        "getcode": "Get the verification code",
+        "getcode": "SEND",
         "setpwd": "Set the password",
         "inpwd": "Enter Your password",
         "repwd": "Please enter your password again"
@@ -737,7 +737,8 @@ export default {
         "mrecord": "Financial records",
         "allRec": "Total financial records",
         "transfer": "Transfer",
-        "desc": "This recharge channel only supports cryptocurrency deposits. Please check the corresponding currency address."
+        "desc": "This recharge channel only supports cryptocurrency deposits. Please check the corresponding currency address.",
+        "desc1": "This top-up channel only supports cryptocurrency deposits. You make deposits in your own currency. If necessary, please contact online customer service to get a remittance account"
     },
     "set": {
         "secset": "Security setting",
@@ -1238,7 +1239,7 @@ export default {
         "secondValuation": "Second Contract Account Asset Valuation",
         "falshValuation": "Valuation of assets in Coin account",
         "c2cValuation": "Asset Valuation of Fiat Account",
-        "recordWithdrawal": "Record of withdrawal of money",
+        "recordWithdrawal": "Record of Deposit or Withdraw",
         "category": "category",
         "safetyCenter": "Safety Center",
         "safeText1": "Registration, password modification, and security settings for receiving validated SMS",
@@ -1248,7 +1249,9 @@ export default {
         "promotionCode": "My Promotion Code",
         "loginAgain": "Logon is out of date, please login again",
         "text10": "Real-time Price Based on AITB",
-        "text11": "Payment voucher"
+        "text11": "Payment voucher",
+        "jiesuanzhong":"In settlement",
+        "jiesuanend":"Settled"
     },
     "td": {
         "buy": "Buy",
@@ -1359,7 +1362,7 @@ export default {
     "bank": {
         "info": "Withdrawal bank card infomation",
         "title": "Advanced Certification",
-        "bankCer": "Bank card authentication",
+        "bankCer": "Bank card settings",
         "address": "Bank address",
         "account": "Bank account",
         "name": "Bank name",
@@ -1399,4 +1402,22 @@ export default {
     "tbFail":"Withdrawal failed",
     "tjye":"Reconciliation balance",
     "sdye":"Lock Balance",
+    "新币申购":"Subscription of new currency",
+    "我的申购":"My subscription",
+    "已上市":"Listed",
+    "未上市":"Unlisted",
+    "锁仓期限":"Lock up period",
+    "锁仓":"Lock the warehouse",
+    "新币名称":"New currency name",
+    "锁仓本金":"Lock in principal",
+    "申购价格":"Subscription price",
+    "申购量":"Subscription amount",
+    "上市价格":"Listing price",
+    "收益":"profit",
+    "申购时间":"Subscription time",
+    "上市时间":"Time to market",
+    "系统冲正":"System correction",
+    "解锁余额":"Unlock Balance",
+    "充币成功":"Coin charging succeeded",
+    "锁定余额":"Lock Balance",
 }

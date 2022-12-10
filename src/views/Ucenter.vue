@@ -39,7 +39,7 @@
             </mu-card>
             <div class="creditScore" v-if="getConfigInfo('credit_score_show')">
                 <label for="">{{$t("shop.creditScore")}}</label>
-                : <span>{{credit_score}}</span>
+                : <span>{{credit_score || 0}}</span>
             </div>
             <mu-list class="my-settings">
                 <mu-list-item @click="named" button :ripple="true">
@@ -51,7 +51,7 @@
                         <mu-icon color="primary" :value="getNamed()"></mu-icon>
                     </mu-list-item-action>
                 </mu-list-item>
-                <!-- 银行卡认证 -->
+                <!-- 银行卡设定 -->
                 <mu-list-item to="card" v-if="getConfigInfo('bank_auth_show') == 1" button :ripple="true">
                     <mu-list-item-action>
                         <mu-icon color="primary" value=":icon-yinhangka"></mu-icon>
@@ -62,8 +62,8 @@
                 </mu-list-item>
                 <!-- 高级认证 -->
                 <mu-list-item @click="heightCert" v-if="getConfigInfo('high_auth_show') == 1" button :ripple="true">
-                    <mu-list-item-action>
-                        <mu-icon color="primary" value=":icon-yinhangka"></mu-icon>
+                  <mu-list-item-action>
+                        <mu-icon color="primary" value=":icon-renzheng"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>{{ $t("bank.title") }}</mu-list-item-title>
                     <mu-list-item-action>
@@ -75,15 +75,6 @@
                     </mu-list-item-action>
                     <mu-list-item-title>{{ $t("shop.loan") }}</mu-list-item-title>
                     <mu-list-item-action>
-                    </mu-list-item-action>
-                </mu-list-item>
-                <mu-list-item v-if="showHigh" @click="namedh" button :ripple="true">
-                    <mu-list-item-action>
-                        <mu-icon color="primary" value=":icon-renzheng"></mu-icon>
-                    </mu-list-item-action>
-                    <mu-list-item-title>{{ $t('security.idcardh') }}</mu-list-item-title>
-                    <mu-list-item-action>
-                        <mu-icon color="primary" :value="getNamedH()"></mu-icon>
                     </mu-list-item-action>
                 </mu-list-item>
                 <mu-list-item @click="$router.push('/share')" button :ripple="true">
@@ -153,7 +144,7 @@
                         <mu-avatar @click="upload1" v-if="pic1 !== ''" size="72">
                             <img :src="pic1">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile1" ref="uploadprev" style="display: none;"></input>
+                        <input type="file" @change="uploadFile1" ref="uploadprev" style="display: none;"/>
                     </div>
                     <div class="flex1 talc">
                         <mu-icon v-if="pic2 === ''" ref="uploadback" @click="upload2" size="72" color="#eee"
@@ -161,7 +152,7 @@
                         <mu-avatar @click="upload2" v-if="pic2 !== ''" size="72">
                             <img :src="pic2">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile2" ref="uploadback" style="display: none;"></input>
+                        <input type="file" @change="uploadFile2" ref="uploadback" style="display: none;"/>
                     </div>
                 </div>
                 <div>
@@ -186,14 +177,14 @@
                         <mu-avatar @click="upload3" v-if="pic3 !== ''" size="72">
                             <img :src="pic3">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile3" ref="upload3" style="display: none;"></input>
+                        <input type="file" @change="uploadFile3" ref="upload3" style="display: none;"/>
                     </div>
                     <div class="flex1 talc">
                         <mu-icon v-if="pic4 === ''" @click="upload4" size="72" color="#eee" value=":icon-jia"></mu-icon>
                         <mu-avatar @click="upload4" v-if="pic4 !== ''" size="72">
                             <img :src="pic4">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile4" ref="upload4" style="display: none;"></input>
+                        <input type="file" @change="uploadFile4" ref="upload4" style="display: none;"/>
                     </div>
                 </div>
                 <div class="flex alcenter mb15 mt15">
@@ -202,14 +193,14 @@
                         <mu-avatar @click="upload5" v-if="pic5 !== ''" size="72">
                             <img :src="pic5">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile5" ref="upload5" style="display: none;"></input>
+                        <input type="file" @change="uploadFile5" ref="upload5" style="display: none;"/>
                     </div>
                     <div class="flex1 talc">
                         <mu-icon v-if="pic6 === ''" @click="upload6" size="72" color="#eee" value=":icon-jia"></mu-icon>
                         <mu-avatar @click="upload6" v-if="pic6 !== ''" size="72">
                             <img :src="pic6">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile6" ref="upload6" style="display: none;"></input>
+                        <input type="file" @change="uploadFile6" ref="upload6" style="display: none;"/>
                     </div>
                 </div>
                 <div class="flex alcenter mb15 mt15">
@@ -218,7 +209,7 @@
                         <mu-avatar @click="upload7" v-if="pic7 !== ''" size="72">
                             <img :src="pic7">
                         </mu-avatar>
-                        <input type="file" @change="uploadFile7" ref="upload7" style="display: none;"></input>
+                        <input type="file" @change="uploadFile7" ref="upload7" style="display: none;"/>
                     </div>
                     <div class="flex1"></div>
                 </div>
@@ -311,7 +302,6 @@ export default {
       jiashi: "",
       idcard: "",
       showBank: showBankFill,
-      showHigh: showHighVerify,
       user_id: user_id,
       review_status: -1,
       hreview_status: -1,
@@ -335,7 +325,6 @@ export default {
     this.loadCenter();
     this.getCustrom();
     this.credit_score = localStorage.getItem("credit_score") || 0;
-    console.log(this.credit_score);
   },
   computed:{
     ...mapGetters(["getConfigInfo"])
@@ -696,18 +685,6 @@ export default {
         return;
       }
       if (this.review_status === 1) {
-        this.$toast.message(this.$t("security.auing"));
-      }
-    },
-    namedh() {
-      if (this.hreview_status === 0) {
-        this.openNameH = true;
-      }
-      if (this.hreview_status === 2) {
-        this.$toast.success(this.$t("auth2.complete"));
-        return;
-      }
-      if (this.hreview_status === 1) {
         this.$toast.message(this.$t("security.auing"));
       }
     },

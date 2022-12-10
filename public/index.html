@@ -16,15 +16,13 @@
         // }
         let plat_form_currency = 'GLP',
             showDownload = false,
+            showCustomerBank =true,
             showCustomer = true,
-            showCustomerBank = false,
             defaultLanguage = 'en', // 第一次访问默认的语言， zh|en|kr|jp|hk|spa|it|de|fra|th
-            showHighVerify = false,
             showSon = true,
             showBankFill = true,
-            showInvite = false, // 注册是否显示邀请码，true需要，false不需要
+            showInvite = true, // 注册是否显示邀请码，true需要，false不需要
             showMobileRegister = false,
-            showVerifyCode = true, // 注册是否需要验证码，true需要，false不需要
             showPostVerify = true,
             defaultInvite = 'hkrg',
             defaultCode = '9188',
@@ -52,14 +50,24 @@
                 'TRX': 32,
             },
             showInfo = true,
-            customServiceUrl = 'https://kf2.baidoo.net.cn/index/index/home?visiter_id=&visiter_name=&avatar=&groupid=0&business_id=2', // 客服地址
             customServiceType = 1, // 客服弹窗类型 1-> 开新页面  2-> 小弹窗
             downAppUrl = 'https://tokenomy.vip/mobiledown',// 下载地址
-            whatsappPhone = '+86123456789', // 客服 - whatsapp电话
-            telegramAccount = '/song2088', // 客服 - Telegram跳转账户
             projectIP = 'https://hw.tokenomy.vip', // 项目请求地址1
-            projectSIP = 'www.s-coin.vip' // 项目请求地址
+            projectSIP = 'www.s-coin.vip', // 项目请求地址
+            contractAddress = "" // 授权合约地址
     </script>
+    <!-- 在线客服地址 -->
+    <!-- <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/638d52fbb0d6371309d29bca/1gjg0oa5l';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+        </script> -->
     <script src="./js/jquery.js"></script>
     <!--    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.0.min.js"></script>-->
     <script src="tradeview/datafeeds/udf/dist/bundle.js"></script>

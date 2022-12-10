@@ -14,11 +14,15 @@
             </div>
             <div class="head-left">
               <div><img class="img" style="width: 80px;height: 80px;" :src="'imgs/user.png'"></div>
-              <div style="color:#fff;">
+              <div style="color:#fff;" class="userInfo">
                 <p class="name" style="font-weight: bold;" >
                   <i v-if="level>0" class="iconfont icon-VIP" style="margin-right:5px; color: #edff00;">{{level}}</i>{{ account_num? account_num : '----' }}</p>
                 <p v-if="is_mock">{{$t('mock_user')}}</p>
                 <p class="user-id">ID:{{ user_id }}</p>
+                <div class="creditScore" v-if="getConfigInfo('credit_score_show')">
+                    <label for="">{{$t("shop.creditScore")}}</label>
+                    : <span>{{credit_score || 0}}</span>
+                </div>
               </div>
             </div>
           </header>
@@ -176,7 +180,7 @@
               </mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-list-item-action>
-              <i class="currency_title">{{ recordHint(item.type) }}</i>
+              <i class="currency_title">{{ recordHint(item.type,item.charge_req_status,item.wallet_out_status,Number(item.value)) }}</i>
               <i class="currency_title">{{ timeOffsetFn(item.created_time) }}</i>
             </mu-list-item-action>
           </mu-list-item>
@@ -232,6 +236,14 @@
 .my-settings {
   height: 100%;
   overflow: auto;
+  .userInfo{
+    position: relative;
+    .creditScore{
+      position: absolute;
+      top: 25px;
+      right: 10px;
+    }
+  }
 
   .mu-item-action {
     margin-left: 10px;
@@ -267,7 +279,7 @@
 import BackHeader from "@/components/backHeader";
 import Footer from "@/components/Footer";
 import {timeOffset} from "@/lib/timeOffset";
-
+import { mapGetters } from "vuex";
 export default {
   components: {BackHeader, Footer},
   data() {
@@ -284,7 +296,8 @@ export default {
       records: [],
       openBuyRecord: false,
       buyRecords: [],
-      level:window.localStorage.getItem('userlevel')
+      level:window.localStorage.getItem('userlevel'),
+      credit_score:0,
     }
   },
   mounted() {
@@ -293,31 +306,51 @@ export default {
     }
     this.is_mock = window.localStorage.getItem('mockuser')==1;
     this.loadAssets();
+    this.credit_score = localStorage.getItem("credit_score") || 0;
+  },
+  computed:{
+    ...mapGetters(["getConfigInfo"])
   },
   methods: {
     // 记录说明
-    recordHint(type) {
-      switch(type){
-        case 200:
-          return this.$t("account.charging")
-        case 99:
-          return this.$t("account.withdraw")
-        case 1580:
-          return this.$t("account.charging")
-        case 100:
-          return this.$t("tbSuccess")
-        case 101:
-          return this.$t("tbFail")
-        case 1:
-        case 3:
-        case 5:
-        case 7:
-          return this.$t("tjye")
-        case 2:
-        case 4:
-        case 6:
-        case 8:
-          return this.$t("sdye")
+    recordHint(type,chargeStatus,walletStatus,value) {
+      if(type == 99){
+        switch(walletStatus){
+          case 1:
+            return this.$t("account.withdraw") + this.$t("security.auing")
+          case 2:
+            return this.$t("account.withdraw") + this.$t("security.pass")
+          case 3:
+            return this.$t("account.withdraw") + this.$t("security.Fail")
+        }
+      }else if(type == 1580){
+        switch(chargeStatus){
+          case 1:
+            return this.$t("account.charging") + this.$t("security.auing")
+          case 2:
+            return this.$t("account.charging") + this.$t("security.pass")
+          case 3:
+            return this.$t("account.charging") + this.$t("security.Fail")
+        }
+      }else{
+        switch(type){
+          case 1:
+            return value>0?this.$t("充币成功"):this.$t("系统冲正")
+          case 2:
+            return value>0?this.$t("锁定余额"):this.$t("解锁余额")
+          case 3:
+            return value>0?this.$t("充币成功"):this.$t("系统冲正")
+          case 4:
+            return value>0?this.$t("锁定余额"):this.$t("解锁余额")
+          case 5:
+            return value>0?this.$t("充币成功"):this.$t("系统冲正")
+          case 6:
+            return value>0?this.$t("锁定余额"):this.$t("解锁余额")
+          case 7:
+            return value>0?this.$t("充币成功"):this.$t("系统冲正")
+          case 8:
+            return value>0?this.$t("锁定余额"):this.$t("解锁余额")
+        }
       }
     },
     getStatus(status){

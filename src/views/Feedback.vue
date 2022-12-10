@@ -28,7 +28,7 @@
             </mu-list-item-action>
             <mu-list-item-content style="padding: 0 10px;">
               <mu-list-item-title>{{ item.content }}</mu-list-item-title>
-              <mu-list-item-sub-title>{{ item.create_time }}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{ item.create_time*1000 | formatMin }}</mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-list-item-action>
               <mu-button icon>
@@ -69,7 +69,7 @@
       </mu-appbar>
       <div style="padding: 20px;">
         <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-          <mu-card-header :title="showInfo.account_number" :sub-title="showInfo.create_time">
+          <mu-card-header :title="showInfo.account_number" :sub-title="showInfo.create_time*1000 | formatMin">
             <mu-avatar slot="avatar">
               <img src="@/assets/img_2.png">
             </mu-avatar>
@@ -82,7 +82,7 @@
 
           <mu-card-text v-html="'<i class=\'currency_title\'>Reply: </i>'+nl2br(showInfo.reply_content)">
           </mu-card-text>
-          <mu-card-header right title="Tokenomy Team" :sub-title="showInfo.reply_time">
+          <mu-card-header @click="openCus = true" right :title="getConfigInfo('webname')" :sub-title="$t('andKefu')">
 
           </mu-card-header>
 
@@ -90,23 +90,30 @@
       </div>
 
     </mu-dialog>
+    <customerPop :openPop.sync="openCus"/>
   </mu-container>
 </template>
 <script>
-
+import { mapGetters } from "vuex";
+import customerPop from "../components/customerPop"
 export default {
   name: "Feedback",
+  components:{customerPop},
   data() {
     return {
       openAlert: false,
       notices: [],
       showInfo: false,
       content: '',
-      openDetail: false
+      openDetail: false,
+      openCus:false // 打开客服
     }
   },
   mounted() {
     this.loadNews();
+  },
+  computed:{
+    ...mapGetters(["getConfigInfo"])
   },
   methods: {
     loadNews() {

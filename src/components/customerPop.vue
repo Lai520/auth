@@ -14,16 +14,22 @@
         </mu-button>
       </mu-appbar>
       <div class="serviceList">
-        <a :href="'https://t.me/' + telegramAccount">
+        <a v-if="telegramAccount" :href="'https://t.me/' + telegramAccount">
           <div>
             <div><img :src="chat2" class="chat2" /></div>
             <span>Telegram</span>
           </div>
         </a>
-        <a href="#">
+        <a href="#" v-if="getConfigInfo('custorm_url_pc')">
           <div @click.stop="skipService">
             <div><img :src="chat1" class="2" /></div>
             <span>{{ $t("home.kefu") }}</span>
+          </div>
+        </a>
+        <a href="#" v-if="getConfigInfo('custorm_email')">
+          <div>
+            <div><img src="../assets/logo-chat/email.jpg" class="2" /></div>
+            <span>{{ getConfigInfo("custorm_email") }}</span>
           </div>
         </a>
       </div>
@@ -97,13 +103,17 @@ export default {
     },
     // 跳转在线客服
     skipService() {
-      let url = this.changeURLArg(
-        customServiceUrl,
-        "visiter_name",
-        localStorage["accountNum"] || ""
-      );
-      url = this.changeURLArg(url, "visiter_id", localStorage["user_id"] || "");
-      window.open(url, "_blank");
+      if(this.getConfigInfo('custorm_url_pc').indexOf('visiter_name')>-1){
+        let url = this.changeURLArg(
+          this.getConfigInfo('custorm_url_pc'),
+          "visiter_name",
+          localStorage["accountNum"] || ""
+        );
+        url = this.changeURLArg(url, "visiter_id", localStorage["user_id"] || "");
+        window.open(url, "_blank");
+      }else{
+        window.open(this.getConfigInfo('custorm_url_pc'), "_blank");
+      }
       this.openClose();
     },
     openClose() {
@@ -129,7 +139,6 @@ export default {
           return url + "?" + replaceText;
         }
       }
-      return url + "\n" + arg + "\n" + arg_val;
     },
   },
 };
@@ -171,6 +180,7 @@ export default {
     }
     img {
       width: 40px;
+    border-radius: 50%;
     }
     span {
       margin-left: 10px;

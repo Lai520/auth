@@ -23,6 +23,9 @@ let mutations = {
     },
     setConfigInfo(state,configInfo) {
         state.configObj = configInfo
+    },
+    setAlert(state,num) {
+        state.isAlert = num
     }
 }
 export default mutations

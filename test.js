@@ -10632,7 +10632,7 @@ webpackJsonp([12], {
                     secondValuation: "Second Contract Account Asset Valuation",
                     falshValuation: "Valuation of assets in Coin account",
                     c2cValuation: "Asset Valuation of Fiat Account",
-                    recordWithdrawal: "Record of withdrawal of money",
+                    recordWithdrawal: "Record of Deposit or Withdraw",
                     category: "category",
                     safetyCenter: "Safety Center",
                     safeText1: "Registration, password modification, and security settings for receiving validated SMS",

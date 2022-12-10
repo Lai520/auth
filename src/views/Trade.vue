@@ -307,7 +307,6 @@
             </div>
             <div class="flex all">
               <mu-auto-complete
-                :data="secondsNumbers"
                 :color="tradeMode === 'buy' ? 'success' : 'error'"
                 :label="$t('miscro.num')"
                 :suffix="secondModes[secondsMoneyMode].name"
@@ -315,7 +314,7 @@
                 v-model="tsnumber"
                 open-on-focus
                 :placeholder="
-                  $t('lever.handbuy') + secondModes[secondsMoneyMode].micro_min
+                  $t('lever.handbuy') + minNum
                 "
               >
               </mu-auto-complete>
@@ -439,7 +438,7 @@
             <mu-tab>{{ $t("lever.revoked") }}</mu-tab>
           </mu-tabs>
           <div class="demo-text" v-if="loadType === 0">
-            <div style="margin: 10px 0" v-for="item in list_content">
+            <div style="margin: 10px 0" v-for="item in list_content" :key="item.id">
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
                   <span
@@ -563,7 +562,7 @@
             <div
               @click="openShowCon(item)"
               style="margin: 10px 0"
-              v-for="item in list_content"
+              v-for="item in list_content" :key="item.id"
             >
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
@@ -701,7 +700,7 @@
             <div
               @click="openShowCon(item)"
               style="margin: 10px 0"
-              v-for="item in list_content"
+              v-for="item in list_content" :key="item.id"
             >
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
@@ -817,7 +816,7 @@
             </div>
           </div>
           <div class="demo-text" v-if="loadType === 3">
-            <div style="margin: 10px 0" v-for="item in list_content">
+            <div style="margin: 10px 0" v-for="item in list_content" :key="item.id">
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
                   <span
@@ -912,7 +911,7 @@
             <mu-tab>{{ $t("lever.closed") }}</mu-tab>
           </mu-tabs>
           <div class="demo-text" v-if="active2 === 0">
-            <div style="margin: 10px 0" v-for="(item, index) in slist_content">
+            <div style="margin: 10px 0" v-for="(item, index) in slist_content" :key="item.id">
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
                   <span
@@ -1012,7 +1011,7 @@
             </div>
           </div>
           <div class="demo-text" v-if="active2 === 1">
-            <div style="margin: 10px 0" v-for="item in slist_content">
+            <div style="margin: 10px 0" v-for="item in slist_content" :key="item.id">
               <div class="flex alcenter">
                 <span class="flex1" style="text-align: left">
                   <span
@@ -1728,7 +1727,8 @@ export default {
       timer: null,
       showMicroWind: false,
       length: Math.PI * 2 * 100,
-      activeType:0
+      activeType:0,
+      minNum:0
     };
   },
   components: {
@@ -1761,9 +1761,20 @@ export default {
       this.getSListContent();
     },
     secondsMoneyMode(val) {
-        this.activeType = val;
-        console.log(val);
-      this.tsnumber = "";
+      this.activeType = val;
+      // 判断是否符合购买规则
+      let data = this.secondModes[val]
+      // if(data.micro_min > 0){
+      //   if(this.tsnumber%data.micro_min != 0){
+      //     this.tsnumber = "";
+      //   }
+      // }
+      if(data.micro_max>0) {
+        if(this.tsnumber>data.micro_max){
+          this.tsnumber = "";
+        }
+      }
+      
       let arr = [];
       this.secondModes[val].micro_numbers.forEach((x) => {
         arr.push(parseInt(x.number).toString());
@@ -1775,6 +1786,11 @@ export default {
       this.$forceUpdate();
     },
     tstime(val) {
+      let data = this.secondTimes[val]
+      if(Number(this.tsnumber)<Number(data.min_num)) {
+        this.tsnumber = ""
+      }
+      this.minNum = data.min_num
       this.tsrate = this.secondTimes[val].profit_ratio;
     },
     winPrice(val) {
@@ -2200,6 +2216,7 @@ export default {
           that.tsrate = arr[0].profit_ratio;
 
           that.secondTimes = arr;
+          this.minNum = this.secondTimes[0].min_num
           // console.log(that.secondTimes);
         }
       });
@@ -2274,10 +2291,6 @@ export default {
       }
     },
     buySecond() {
-      if (this.tsnumber < 0.00000001) {
-        this.$toast.warning(this.$t("footer.openNum"));
-        return;
-      }
 
       const loading = this.$loading();
 
@@ -2651,6 +2664,11 @@ export default {
       else return timeOffset(time) ? timeOffset(time).substring(5) : "";
     },
     buyCoin(mode) {
+      if (Number(this.tsnumber) < Number(this.minNum)) {
+        let str = this.$t("shop.minnum") + this.minNum
+        this.$toast.warning(str);
+        return;
+      }
       this.tradeMode = mode;
       this.openAlert = true;
     },
@@ -2913,6 +2931,12 @@ export default {
   .mu-button {
     margin: 8px;
     vertical-align: top;
+  }
+}
+
+.mu-input-content{
+  input::-webkit-input-placeholder{
+    font-size: 10px;
   }
 }
 
